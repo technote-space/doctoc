@@ -12,14 +12,6 @@ describe('transform', () => {
     expect(headers.reason).toBe('update only');
   });
 
-  it('no headers', () => {
-    const content = readFileSync(resolve(__dirname, 'fixtures/readme-no-headers.md'), 'utf8');
-    const headers = transform(content);
-
-    expect(headers.transformed).toBe(false);
-    expect(headers.reason).toBe('no headers');
-  });
-
   it('not updated', () => {
     const content = readFileSync(resolve(__dirname, 'fixtures/readme-not-updated.md'), 'utf8');
     const headers = transform(content);
