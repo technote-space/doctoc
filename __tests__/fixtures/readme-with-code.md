@@ -4,10 +4,7 @@ README to test doctoc with edge-case headers.
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 ## Table of Contents
 
-- [Single Backticks](#single-backticks)
-- [Multiple Backticks](#multiple-backticks)
-- [code tag](#code-tag)
-- [pre tag](#pre-tag)
+Out of date
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -35,3 +32,9 @@ not even me fenced
     not even me pre
     -------
 </pre>
+
+## C
+## C++
+## C#
+## C&#035;
+## C #

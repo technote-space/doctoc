@@ -1,10 +1,10 @@
-# dockops [![build status](https://secure.travis-ci.org/thlorenz/dockops.png)](http://travis-ci.org/thlorenz/dockops)
+# dockops [![build status](https://secure.travis-ci.org/technote-space/dockops.png)](http://travis-ci.org/technote-space/dockops)
 
 docker convenience functions on top of dockerode
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+**Table of Contents**  *generated with [DocToc](https://github.com/technote-space/doctoc)*
 
 - [Installation](#installation)
 - [API](#api)
@@ -44,9 +44,9 @@ build('test:uno', testUnoTar, function () {
 })
 ```
 
-[full example](https://github.com/thlorenz/dockops/blob/master/example/create-wipe.js)
+[full example](https://github.com/technote-space/dockops/blob/master/example/create-wipe.js)
 
-![output](https://github.com/thlorenz/dockops/raw/master/assets/output.gif)
+![output](https://github.com/technote-space/dockops/raw/master/assets/output.gif)
 
 ## Installation
 
@@ -96,9 +96,9 @@ build('test:uno', testUnoTar, function () {
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/thlorenz/dockops/blob/master/containers.js">containers.js</a>
+<a href="https://github.com/technote-space/dockops/blob/master/containers.js">containers.js</a>
 <span>, </span>
-<a href="https://github.com/thlorenz/dockops/blob/master/containers.js#L24">lineno 24</a>
+<a href="https://github.com/technote-space/dockops/blob/master/containers.js#L24">lineno 24</a>
 </li>
 </ul></dd>
 </dl>
@@ -145,9 +145,9 @@ Type
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/thlorenz/dockops/blob/master/containers.js">containers.js</a>
+<a href="https://github.com/technote-space/dockops/blob/master/containers.js">containers.js</a>
 <span>, </span>
-<a href="https://github.com/thlorenz/dockops/blob/master/containers.js#L275">lineno 275</a>
+<a href="https://github.com/technote-space/dockops/blob/master/containers.js#L275">lineno 275</a>
 </li>
 </ul></dd>
 </dl>
@@ -192,9 +192,9 @@ This may not be needed anymore as docker got more stable.</p>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/thlorenz/dockops/blob/master/containers.js">containers.js</a>
+<a href="https://github.com/technote-space/dockops/blob/master/containers.js">containers.js</a>
 <span>, </span>
-<a href="https://github.com/thlorenz/dockops/blob/master/containers.js#L97">lineno 97</a>
+<a href="https://github.com/technote-space/dockops/blob/master/containers.js#L97">lineno 97</a>
 </li>
 </ul></dd>
 </dl>
@@ -203,10 +203,10 @@ This may not be needed anymore as docker got more stable.</p>
 </section>
 </div>
 
-*generated with [docme](https://github.com/thlorenz/docme)*
+*generated with [docme](https://github.com/technote-space/docme)*
 </div>
 <!-- END docme generated API please keep comment here to allow auto update -->
 
-## License
+<h2>^License</h2>
 
 MIT
