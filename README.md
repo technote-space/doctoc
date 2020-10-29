@@ -36,7 +36,7 @@ by github or other sites via a command line flag.
 yarn add @technote-space/doctoc
 ```
 
-#### Example
+## Example
 ```js
 import {readFileSync} from 'fs';
 import {findMarkdownFiles, transform} from '@technote-space/doctoc';
