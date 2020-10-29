@@ -32,3 +32,9 @@ not even me fenced
     not even me pre
     -------
 </pre>
+
+## C
+## C++
+## C#
+## C&#035;
+## C #

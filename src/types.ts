@@ -2,6 +2,7 @@ import {Stats} from 'fs';
 
 export type TransformOptions = Partial<{
   mode: string;
+  moduleName: string;
   maxHeaderLevel: number;
   title: string;
   isNotitle: boolean;

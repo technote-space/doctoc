@@ -53,6 +53,11 @@ describe('transform', () => {
         '- [Multiple Backticks](#multiple-backticks)',
         '- [code tag](#code-tag)',
         '- [pre tag](#pre-tag)',
+        '- [C](#c)',
+        '- [C++](#c-1)',
+        '- [C&#035;](#c-2)',
+        '- [C&#035;](#c-3)',
+        '- [C](#c-4)',
         ''],
     );
   });

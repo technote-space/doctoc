@@ -72,6 +72,7 @@ export const getHtmlHeaders = (lines: Array<string>, maxHeaderLevel: number): Ar
 
       // eslint-disable-next-line no-magic-numbers
       if (grabbing[grabbing.length - 1] === name) {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         headers.push({text: [...text], tag: grabbing.pop()!});
         text.length = 0;
       }
