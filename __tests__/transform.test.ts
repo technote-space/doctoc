@@ -597,12 +597,12 @@ describe('matchesStart', () => {
   it('should return true', () => {
     expect(matchesStart()('<!-- START doctoc -->')).toBe(true);
     expect(matchesStart()('<!-- START doctoc generated TOC please keep comment here to allow auto update -->')).toBe(true);
-    expect(matchesStart('<!-- test ')('<!-- test abc -->')).toBe(true);
+    expect(matchesStart(['<!-- test '])('<!-- test abc -->')).toBe(true);
   });
 
   it('should return false', () => {
     expect(matchesStart()('<!-- doctoc -->')).toBe(false);
-    expect(matchesStart('<!-- test ')('<!-- START doctoc -->')).toBe(false);
+    expect(matchesStart(['<!-- test '])('<!-- START doctoc -->')).toBe(false);
   });
 });
 
@@ -610,11 +610,11 @@ describe('matchesEnd', () => {
   it('should return true', () => {
     expect(matchesEnd()('<!-- END doctoc -->')).toBe(true);
     expect(matchesEnd()('<!-- END doctoc generated TOC please keep comment here to allow auto update -->')).toBe(true);
-    expect(matchesEnd('<!-- test ')('<!-- test abc -->')).toBe(true);
+    expect(matchesEnd(['<!-- test '])('<!-- test abc -->')).toBe(true);
   });
 
   it('should return false', () => {
     expect(matchesEnd()('<!-- doctoc -->')).toBe(false);
-    expect(matchesEnd('<!-- test ')('<!-- END doctoc -->')).toBe(false);
+    expect(matchesEnd(['<!-- test '])('<!-- END doctoc -->')).toBe(false);
   });
 });

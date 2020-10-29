@@ -33,8 +33,8 @@ describe('transform', () => {
   it('change check toc comment', () => {
     const content = readFileSync(resolve(__dirname, 'fixtures/readme-with-weird-headers.md'), 'utf8');
     const headers = transform(content, {
-      checkOpeningComment: '<!-- toc ',
-      checkClosingComment: '<!-- tocstop ',
+      checkOpeningComments: ['<!-- toc '],
+      checkClosingComments: ['<!-- tocstop '],
       openingComment: '<!-- toc -->',
       closingComment: '<!-- tocstop -->',
       isNotitle: true,

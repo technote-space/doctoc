@@ -12,8 +12,8 @@ export type TransformOptions = Partial<{
   updateOnly: boolean;
   openingComment: string;
   closingComment: string;
-  checkOpeningComment: string;
-  checkClosingComment: string;
+  checkOpeningComments: Array<string>;
+  checkClosingComments: Array<string>;
 }>
 
 export type FileInfo = {

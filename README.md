@@ -45,8 +45,8 @@ transform(readFileSync('README.md', {
   // updateOnly: true,
   // openingComment: '<!-- toc -->',
   // closingComment: '<!-- tocstop --> ',
-  // checkOpeningComment: '<!-- toc ',
-  // checkClosingComment: '<!-- tocstop ',
+  // checkOpeningComments: ['<!-- toc '],
+  // checkClosingComments: ['<!-- tocstop '],
 }));
 ```
 
