@@ -1,9 +1,15 @@
-# DocToc [![build status](https://secure.travis-ci.org/thlorenz/doctoc.svg)](http://travis-ci.org/thlorenz/doctoc)
+# DocToc
 
-<a href="https://www.patreon.com/bePatron?u=8663953"><img alt="become a patron" src="https://c5.patreon.com/external/logo/become_a_patron_button.png" height="35px"></a>
+[![npm version](https://badge.fury.io/js/%40technote-space%2Fdoctoc.svg)](https://badge.fury.io/js/%40technote-space%2Fdoctoc)
+[![CI Status](https://github.com/technote-space/doctoc/workflows/CI/badge.svg)](https://github.com/technote-space/doctoc/actions)
+[![codecov](https://codecov.io/gh/technote-space/doctoc/branch/master/graph/badge.svg)](https://codecov.io/gh/technote-space/doctoc)
+[![CodeFactor](https://www.codefactor.io/repository/github/technote-space/doctoc/badge)](https://www.codefactor.io/repository/github/technote-space/doctoc)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/technote-space/doctoc/blob/master/LICENSE)
 
 Generates table of contents for markdown files inside local git repository. Links are compatible with anchors generated
 by github or other sites via a command line flag.
+
+## Table of Contents
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -24,7 +30,6 @@ by github or other sites via a command line flag.
   - [Usage as a `git` hook](#usage-as-a-git-hook)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 
 ## Installation
 
