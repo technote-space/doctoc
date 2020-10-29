@@ -112,7 +112,7 @@ describe('transform', () => {
       '## API ##',
     ].join('\n'),
     ['**Table of Contents**  *generated with [DocToc](https://github.com/technote-space/doctoc)*\n\n',
-      '- [My Module !"&#035;$%&\'()=~¥@[];:*+{}](#my-module-)\n',
+      '- [My Module !"&#035;$%&\'()=~¥@&#91;&#93;;:*+{}](#my-module-)\n',
       '  - [API](#api)\n\n\n',
     ].join(''),
   );
