@@ -10,7 +10,7 @@ const separateFilesAndDirs = (fileInfos: Array<FileInfo>): FileAndDirs => ({
 
 const findRec = (currentPath: string): Array<FileInfo> => {
   const getStat = (entry: string): FileInfo => {
-    const target = path.join(currentPath, entry);
+    const target = path.resolve(currentPath, entry);
     const stat   = fs.statSync(target);
 
     return {
