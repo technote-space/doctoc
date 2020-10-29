@@ -1,32 +1,7 @@
 {
-  "author": "Thorsten Lorenz <thlorenz@gmx.de> (thlorenz.com)",
-  "name": "doctoc",
+  "name": "@technote-space/doctoc",
+  "version": "0.0.0",
   "description": "Generates TOC for markdown files of local git repo.",
-  "version": "1.4.0",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/thlorenz/doctoc.git"
-  },
-  "scripts": {
-    "test": "set -e; for t in test/*.js; do node $t; done"
-  },
-  "files": [
-    "lib"
-  ],
-  "main": "doctoc.js",
-  "bin": "doctoc.js",
-  "dependencies": {
-    "@textlint/markdown-to-ast": "~6.1.7",
-    "anchor-markdown-header": "~0.5.7",
-    "htmlparser2": "~4.1.0",
-    "minimist": "~1.2.5",
-    "underscore": "~1.10.2",
-    "update-section": "~0.3.3"
-  },
-  "devDependencies": {
-    "tap": "^14.10.7"
-  },
-  "license": "MIT",
   "keywords": [
     "github",
     "markdown",
@@ -36,5 +11,60 @@
     "bitbucket",
     "gitlab",
     "ghost"
-  ]
+  ],
+  "homepage": "https://github.com/technote-space/doctoc#readme",
+  "bugs": {
+    "url": "https://github.com/technote-space/doctoc/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/technote-space/doctoc.git"
+  },
+  "license": "MIT",
+  "author": "Thorsten Lorenz <thlorenz@gmx.de> (thlorenz.com)",
+  "contributors": [
+    {
+      "name": "Technote",
+      "email": "technote.space@gmail.com",
+      "url": "https://technote.space"
+    }
+  ],
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "files": [
+    "build"
+  ],
+  "scripts": {
+    "build": "rm -rf ./build && tsc",
+    "cover": "jest --coverage",
+    "lint": "eslint 'src/**/*.ts' '__tests__/**/*.ts' --cache",
+    "lint:fix": "eslint --fix 'src/**/*.ts' '__tests__/**/*.ts'",
+    "test": "yarn lint && yarn cover",
+    "update": "npx npm-check-updates -u && yarn install && yarn upgrade && yarn audit"
+  },
+  "dependencies": {
+    "@technote-space/anchor-markdown-header": "^1.1.2",
+    "@textlint/markdown-to-ast": "^6.2.5",
+    "htmlparser2": "^5.0.1",
+    "update-section": "^0.3.3"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
+    "@textlint/ast-node-types": "^4.3.4",
+    "@types/jest": "^26.0.15",
+    "@types/node": "^14.14.6",
+    "@typescript-eslint/eslint-plugin": "^4.6.0",
+    "@typescript-eslint/parser": "^4.6.0",
+    "eslint": "^7.12.1",
+    "husky": "^4.3.0",
+    "jest": "^26.6.1",
+    "jest-circus": "^26.6.1",
+    "lint-staged": "^10.5.0",
+    "ts-jest": "^26.4.3",
+    "typescript": "^4.0.5"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
 }

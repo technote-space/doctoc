@@ -1,14 +1,16 @@
-README to test doctoc with edge-case headers.
+# Hello, world!
+
+README to test doctoc with user-specified titles.
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 ## Table of Contents
 
-- [hasOwnProperty](#hasownproperty)
-- [something else](#something-else)
+Out of date
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 
-## hasOwnProperty
-## something else
+## Installation
+## API
+## License

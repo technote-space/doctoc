@@ -1,18 +1,10 @@
-# Hello, world!
-
-README to test doctoc with user-specified titles.
+README to test doctoc with no headers.
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 ## Table of Contents
 
-- [Installation](#installation)
-- [API](#api)
-- [License](#license)
+- [hasOwnProperty](#hasownproperty)
+- [something else](#something-else)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-
-## Installation
-## API
-## License
