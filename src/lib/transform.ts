@@ -152,27 +152,18 @@ export const transform = (
     };
   }
 
-  const inferredTitle  = determineTitle(title, isNotitle, isFolding, lines, info);
-  const titleSeparator = inferredTitle ? '\n\n' : '\n';
   // eslint-disable-next-line no-magic-numbers
-  const currentToc     = info.hasStart && lines.slice(info.startIdx, info.endIdx + 1).join('\n');
-  const linesToToc     = getLinesToToc(lines, currentToc, info, processAll);
-  const headers        = getMarkdownHeaders(linesToToc, maxHeaderLevel).concat(getHtmlHeaders(linesToToc, maxHeaderLevelHtml));
+  const currentToc = info.hasStart && lines.slice(info.startIdx, info.endIdx + 1).join('\n');
+  const linesToToc = getLinesToToc(lines, currentToc, info, processAll);
+  const headers    = getMarkdownHeaders(linesToToc, maxHeaderLevel).concat(getHtmlHeaders(linesToToc, maxHeaderLevelHtml));
   headers.sort((header1, header2) => header1.line - header2.line);
 
   const allHeaders    = countHeaders(headers, mode, moduleName);
   const lowestRank    = Math.min(...allHeaders.map(header => header.rank));
   const linkedHeaders = allHeaders.map(header => addAnchor(mode, moduleName, header));
 
-  if (!linkedHeaders.length) {
-    return {
-      transformed: false,
-      data: '',
-      toc: '',
-      wrappedToc: '',
-      reason: 'no headers',
-    };
-  }
+  const inferredTitle  = linkedHeaders.length ? determineTitle(title, isNotitle, isFolding, lines, info) : '';
+  const titleSeparator = inferredTitle ? '\n\n' : '\n';
 
   // 4 spaces required for proper indention on Bitbucket and GitLab
   const indentation = (mode === 'bitbucket.org' || mode === 'gitlab.com') ? '    ' : '  ';

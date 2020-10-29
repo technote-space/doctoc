@@ -43,4 +43,16 @@ describe('transform', () => {
     expect(headers.transformed).toBe(false);
     expect(headers.reason).toBe('not updated');
   });
+
+  it('should remove toc if no headers', () => {
+    const content = readFileSync(resolve(__dirname, 'fixtures/readme-no-headers.md'), 'utf8');
+    const headers = transform(content);
+
+    expect(headers.transformed).toBe(true);
+    expect(headers.toc.split('\n')).toEqual(
+      ['',
+        '',
+        ''],
+    );
+  });
 });
