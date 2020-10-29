@@ -12,8 +12,16 @@ import {
 } from '..';
 import {TransformOptions, Header, HeaderWithRepetition, HeaderWithAnchor, SectionInfo, TransformResult} from '../types';
 
-export const matchesStart = (openingComment?: string) => (line: string): boolean => (new RegExp(openingComment ? openingComment : CHECK_OPENING_COMMENT)).test(line);
-export const matchesEnd   = (closingComment?: string) => (line: string): boolean => (new RegExp(closingComment ? closingComment : CHECK_CLOSING_COMMENT)).test(line);
+const getTargetComments = (checkComments: Array<string>, defaultComments: string): Array<string> => {
+  if (checkComments.length) {
+    return checkComments;
+  }
+
+  return [defaultComments];
+};
+
+export const matchesStart = (checkOpeningComments?: Array<string>) => (line: string): boolean => getTargetComments(checkOpeningComments ?? [], CHECK_OPENING_COMMENT).some(comment => new RegExp(comment).test(line));
+export const matchesEnd   = (checkClosingComments?: Array<string>) => (line: string): boolean => getTargetComments(checkClosingComments ?? [], CHECK_CLOSING_COMMENT).some(comment => new RegExp(comment).test(line));
 const addAnchor           = (mode: string | undefined, moduleName: string | undefined, header: HeaderWithRepetition): HeaderWithAnchor => {
   return {
     ...header,
@@ -120,8 +128,8 @@ export const transform = (
     updateOnly,
     openingComment,
     closingComment,
-    checkOpeningComment,
-    checkClosingComment,
+    checkOpeningComments,
+    checkClosingComments,
   }: TransformOptions = {},
 ): TransformResult => {
   mode        = mode || 'github.com';
@@ -131,7 +139,7 @@ export const transform = (
   // eslint-disable-next-line no-magic-numbers
   const maxHeaderLevelHtml = maxHeaderLevel || 4;
   const lines              = content.split('\n');
-  const info: SectionInfo  = updateSection.parse(lines, matchesStart(checkOpeningComment), matchesEnd(checkClosingComment));
+  const info: SectionInfo  = updateSection.parse(lines, matchesStart(checkOpeningComments), matchesEnd(checkClosingComments));
 
   if (!info.hasStart && updateOnly) {
     return {
@@ -185,7 +193,7 @@ export const transform = (
 
   return {
     transformed: true,
-    data: updateSection(lines.join('\n'), wrappedToc, matchesStart(checkOpeningComment), matchesEnd(checkClosingComment), true),
+    data: updateSection(lines.join('\n'), wrappedToc, matchesStart(checkOpeningComments), matchesEnd(checkClosingComments), true),
     toc,
     wrappedToc,
     reason: '',
