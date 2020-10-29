@@ -17,6 +17,7 @@ by github or other sites via a command line flag.
 <summary>Details</summary>
 
 - [Install](#install)
+- [Example](#example)
 
 </details>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
