@@ -13,22 +13,13 @@ by github or other sites via a command line flag.
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+<details>
+<summary>Details</summary>
 
-- [Installation](#installation)
-- [Usage](#usage)
-  - [Adding toc to all files in a directory and sub directories](#adding-toc-to-all-files-in-a-directory-and-sub-directories)
-  - [Update existing doctoc TOCs effortlessly](#update-existing-doctoc-tocs-effortlessly)
-  - [Adding toc to individual files](#adding-toc-to-individual-files)
-    - [Examples](#examples)
-  - [Using doctoc to generate links compatible with other sites](#using-doctoc-to-generate-links-compatible-with-other-sites)
-    - [Example](#example)
-  - [Specifying location of toc](#specifying-location-of-toc)
-  - [Specifying a custom TOC title](#specifying-a-custom-toc-title)
-  - [Specifying a maximum heading level for TOC entries](#specifying-a-maximum-heading-level-for-toc-entries)
-  - [Printing to stdout](#printing-to-stdout)
-  - [Usage as a `git` hook](#usage-as-a-git-hook)
+- [Install](#install)
+- [Example](#example)
 
+</details>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Install
