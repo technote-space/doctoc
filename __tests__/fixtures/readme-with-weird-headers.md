@@ -15,5 +15,5 @@ Out of date
 
 <!-- tocstop -->
 
-## hasOwnProperty
+## hasOwnProperty 
 ## something else

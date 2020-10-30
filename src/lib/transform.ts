@@ -31,7 +31,7 @@ const addAnchor           = (mode: string | undefined, moduleName: string | unde
 
 // eslint-disable-next-line no-magic-numbers
 const shouldEscape = (header: TxtNode): boolean => /^#+\s+/.test(header.raw) && !/\s+#+$/.test(header.raw) && header.children.length === 1 && header.children[0].type === md.Syntax.Str;
-const escapeHeader = (header: TxtNode): TxtNode => md.parse(header.raw.replace(/^#+\s+/, '').replace('&#035;', '#').replace('#', '&#035;').replace(']', '&#93;').replace('[', '&#91;'));
+const escapeHeader = (header: TxtNode): TxtNode => md.parse(header.raw.replace(/^#+\s+/, '').replace('&#035;', '#').replace('#', '&#035;').replace(']', '&#93;').replace('[', '&#91;').trim());
 
 export const getMarkdownHeaders = (lines: Array<string>, maxHeaderLevel: number | undefined): Array<Header> => {
   const extractText = (header: TxtNode): string => {
