@@ -1,6 +1,6 @@
 on:
   schedule:
-    - cron: 46 22 23 * *
+    - cron: 53 17 22 * *
   repository_dispatch:
     types: [check-link]
   workflow_dispatch:
@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: technote-space/auto-cancel-redundant-job@v1
+      - uses: technote-space/auto-cancel-redundant-workflow@v1
         with:
           EXCLUDE_MERGED: 'true'
       - name: Broken Link Check
