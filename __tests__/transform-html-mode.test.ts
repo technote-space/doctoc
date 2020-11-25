@@ -15,6 +15,8 @@ describe('transform', () => {
         '<a href="#installation">Installation</a>',
         '<span>|</span>',
         '<a href="#api">API</a>',
+        '<span>|</span>',
+        '<a href="#license">^License</a>',
         '</p>',
         ''],
     );
@@ -37,6 +39,8 @@ describe('transform', () => {
         '<li><a href="#installation" target="_blank">Installation</a></li>',
         '',
         '<li><a href="#api" target="_blank">API</a></li>',
+        '',
+        '<li><a href="#license" target="_blank">^License</a></li>',
         '</ul>',
         ''],
     );
