@@ -126,9 +126,9 @@ const getHeaderItem = (header: HeaderWithAnchor, indentation: string, lowestRank
   return `${indentation.repeat(header.rank - lowestRank)}${entryPrefix} ${header.anchor}`;
 };
 
-const getHtmlHeaderContents = (headers: Array<HeaderWithAnchor>, htmlTemplate: string | undefined, itemTemplate: string | undefined, separator: string | undefined): string => replaceVariables(htmlTemplate ?? DEFAULT_HTML_TEMPLATE, [{
+const getHtmlHeaderContents = (headers: Array<HeaderWithAnchor>, lowestRank: number, htmlTemplate: string | undefined, itemTemplate: string | undefined, separator: string | undefined): string => replaceVariables(htmlTemplate ?? DEFAULT_HTML_TEMPLATE, [{
   key: 'ITEMS',
-  replace: `\n${headers.map(header => getHeaderItemHtml(header, itemTemplate)).join(`\n${separator ?? DEFAULT_SEPARATOR}\n`)}\n`,
+  replace: `\n${headers.filter(header => header.rank === lowestRank).map(header => getHeaderItemHtml(header, itemTemplate)).join(`\n${separator ?? DEFAULT_SEPARATOR}\n`)}\n`,
 }]);
 
 const getHeaderItemHtml = (header: HeaderWithAnchor, itemTemplate: string | undefined): string => {
@@ -165,7 +165,7 @@ export const transform = (
 
   // only limit *HTML* headings by default
   // eslint-disable-next-line no-magic-numbers
-  const maxHeaderLevelHtml = isHtml ? 1 : (maxHeaderLevel || 4);
+  const maxHeaderLevelHtml = maxHeaderLevel || 4;
   const lines              = content.split('\n');
   const info: SectionInfo  = updateSection.parse(lines, matchesStart(checkOpeningComments), matchesEnd(checkClosingComments));
 
@@ -197,7 +197,7 @@ export const transform = (
   const toc         =
           inferredTitle +
           titleSeparator +
-          (isHtml ? getHtmlHeaderContents(linkedHeaders, htmlTemplate, itemTemplate, separator) : getHeaderContents(linkedHeaders, indentation, lowestRank, _entryPrefix)) +
+          (isHtml ? getHtmlHeaderContents(linkedHeaders, lowestRank, htmlTemplate, itemTemplate, separator) : getHeaderContents(linkedHeaders, indentation, lowestRank, _entryPrefix)) +
           '\n';
   const wrappedToc  = (openingComment ?? OPENING_COMMENT) + '\n' + wrapToc(toc, inferredTitle, isFolding) + '\n' + (closingComment ?? CLOSING_COMMENT);
   if (currentToc === wrappedToc) {

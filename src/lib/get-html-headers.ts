@@ -27,7 +27,7 @@ const addLinenos = (lines: Array<string>, headers: Array<HeaderData>): Array<Omi
   });
 };
 
-const rankify = (headers: Array<Omit<Header, 'rank'> & HeaderData>, max): Array<Header> => headers.map(header => ({
+const rankify = (headers: Array<Omit<Header, 'rank'> & HeaderData>, max: number): Array<Header> => headers.map(header => ({
   ...header,
   // eslint-disable-next-line no-magic-numbers
   rank: parseInt(header.tag.slice(1), 10),
