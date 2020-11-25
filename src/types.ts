@@ -14,6 +14,10 @@ export type TransformOptions = Partial<{
   closingComment: string;
   checkOpeningComments: Array<string>;
   checkClosingComments: Array<string>;
+  isHtml: boolean;
+  htmlTemplate: string;
+  itemTemplate: string;
+  separator: string;
 }>
 
 export type FileInfo = {
@@ -44,6 +48,7 @@ export type HeaderWithRepetition = Header & {
 
 export type HeaderWithAnchor = HeaderWithRepetition & {
   anchor: string;
+  hash: string;
 }
 
 export type SectionInfo = {

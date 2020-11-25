@@ -3,12 +3,16 @@ import updateSection from 'update-section';
 import * as md from '@textlint/markdown-to-ast';
 import {TxtNode} from '@textlint/ast-node-types';
 import {getHtmlHeaders} from './get-html-headers';
+import {replaceVariables} from './utils';
 import {
   OPENING_COMMENT,
   CLOSING_COMMENT,
   CHECK_OPENING_COMMENT,
   CHECK_CLOSING_COMMENT,
   DEFAULT_TITLE,
+  DEFAULT_HTML_TEMPLATE,
+  DEFAULT_ITEM_TEMPLATE,
+  DEFAULT_SEPARATOR,
 } from '..';
 import {TransformOptions, Header, HeaderWithRepetition, HeaderWithAnchor, SectionInfo, TransformResult} from '../types';
 
@@ -22,10 +26,11 @@ const getTargetComments = (checkComments: Array<string>, defaultComments: string
 
 export const matchesStart = (checkOpeningComments?: Array<string>) => (line: string): boolean => getTargetComments(checkOpeningComments ?? [], CHECK_OPENING_COMMENT).some(comment => new RegExp(comment).test(line));
 export const matchesEnd   = (checkClosingComments?: Array<string>) => (line: string): boolean => getTargetComments(checkClosingComments ?? [], CHECK_CLOSING_COMMENT).some(comment => new RegExp(comment).test(line));
-const addAnchor           = (mode: string | undefined, moduleName: string | undefined, header: HeaderWithRepetition): HeaderWithAnchor => {
+const addAnchor           = (mode: string, moduleName: string | undefined, header: HeaderWithRepetition): HeaderWithAnchor => {
   return {
     ...header,
     anchor: anchor(header.name, mode, header.repetition, moduleName),
+    hash: getUrlHash(header.name, mode, header.repetition, moduleName),
   };
 };
 
@@ -115,6 +120,24 @@ const determineTitle = (title: string | undefined, isNotitle: boolean | undefine
   return wrapTitle(getTitle(title, lines, info), isFolding);
 };
 
+const getHeaderContents = (headers: Array<HeaderWithAnchor>, indentation: string, lowestRank: number, entryPrefix: string): string => headers.map(header => getHeaderItem(header, indentation, lowestRank, entryPrefix)).join('\n');
+
+const getHeaderItem = (header: HeaderWithAnchor, indentation: string, lowestRank: number, entryPrefix: string): string => {
+  return `${indentation.repeat(header.rank - lowestRank)}${entryPrefix} ${header.anchor}`;
+};
+
+const getHtmlHeaderContents = (headers: Array<HeaderWithAnchor>, htmlTemplate: string | undefined, itemTemplate: string | undefined, separator: string | undefined): string => replaceVariables(htmlTemplate ?? DEFAULT_HTML_TEMPLATE, [{
+  key: 'ITEMS',
+  replace: `\n${headers.map(header => getHeaderItemHtml(header, itemTemplate)).join(`\n${separator ?? DEFAULT_SEPARATOR}\n`)}\n`,
+}]);
+
+const getHeaderItemHtml = (header: HeaderWithAnchor, itemTemplate: string | undefined): string => {
+  return replaceVariables(itemTemplate ?? DEFAULT_ITEM_TEMPLATE, [
+    {key: 'LINK', replace: `#${header.hash}`},
+    {key: 'TEXT', replace: header.name},
+  ]);
+};
+
 export const transform = (
   content: string,
   {
@@ -131,14 +154,18 @@ export const transform = (
     closingComment,
     checkOpeningComments,
     checkClosingComments,
+    isHtml,
+    htmlTemplate,
+    itemTemplate,
+    separator,
   }: TransformOptions = {},
 ): TransformResult => {
-  mode        = mode || 'github.com';
-  entryPrefix = entryPrefix || '-';
+  const _mode        = mode || 'github.com';
+  const _entryPrefix = entryPrefix || '-';
 
   // only limit *HTML* headings by default
   // eslint-disable-next-line no-magic-numbers
-  const maxHeaderLevelHtml = maxHeaderLevel || 4;
+  const maxHeaderLevelHtml = isHtml ? 1 : (maxHeaderLevel || 4);
   const lines              = content.split('\n');
   const info: SectionInfo  = updateSection.parse(lines, matchesStart(checkOpeningComments), matchesEnd(checkClosingComments));
 
@@ -158,19 +185,19 @@ export const transform = (
   const headers    = getMarkdownHeaders(linesToToc, maxHeaderLevel).concat(getHtmlHeaders(linesToToc, maxHeaderLevelHtml));
   headers.sort((header1, header2) => header1.line - header2.line);
 
-  const allHeaders    = countHeaders(headers, mode, moduleName);
+  const allHeaders    = countHeaders(headers, _mode, moduleName);
   const lowestRank    = Math.min(...allHeaders.map(header => header.rank));
-  const linkedHeaders = allHeaders.map(header => addAnchor(mode, moduleName, header));
+  const linkedHeaders = allHeaders.map(header => addAnchor(_mode, moduleName, header));
 
   const inferredTitle  = linkedHeaders.length ? determineTitle(title, isNotitle, isFolding, lines, info) : '';
   const titleSeparator = inferredTitle ? '\n\n' : '\n';
 
   // 4 spaces required for proper indention on Bitbucket and GitLab
-  const indentation = (mode === 'bitbucket.org' || mode === 'gitlab.com') ? '    ' : '  ';
+  const indentation = (_mode === 'bitbucket.org' || _mode === 'gitlab.com') ? '    ' : '  ';
   const toc         =
           inferredTitle +
           titleSeparator +
-          linkedHeaders.map(header => indentation.repeat(header.rank - lowestRank) + entryPrefix + ' ' + header.anchor).join('\n') +
+          (isHtml ? getHtmlHeaderContents(linkedHeaders, htmlTemplate, itemTemplate, separator) : getHeaderContents(linkedHeaders, indentation, lowestRank, _entryPrefix)) +
           '\n';
   const wrappedToc  = (openingComment ?? OPENING_COMMENT) + '\n' + wrapToc(toc, inferredTitle, isFolding) + '\n' + (closingComment ?? CLOSING_COMMENT);
   if (currentToc === wrappedToc) {
