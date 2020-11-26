@@ -6,7 +6,7 @@ import {transform} from '../src';
 describe('transform', () => {
   it('run in html mode', () => {
     const content = readFileSync(resolve(__dirname, 'fixtures/readme-with-html.md'), 'utf8');
-    const headers = transform(content, {mode: 'github.com', isHtml: true});
+    const headers = transform(content, {mode: 'github.com', isCustomMode: true});
 
     expect(headers.toc.split('\n')).toEqual(
       ['**Table of Contents**  *generated with [DocToc](https://github.com/technote-space/doctoc)*',
@@ -26,8 +26,8 @@ describe('transform', () => {
     const content = readFileSync(resolve(__dirname, 'fixtures/readme-with-html.md'), 'utf8');
     const headers = transform(content, {
       mode: 'github.com',
-      isHtml: true,
-      htmlTemplate: '<ul>${ITEMS}</ul>',
+      isCustomMode: true,
+      customTemplate: '<ul>${ITEMS}</ul>',
       itemTemplate: '<li><a href="${LINK}" target="_blank">${TEXT}</a></li>',
       separator: '',
     });

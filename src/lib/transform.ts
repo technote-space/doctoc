@@ -126,7 +126,7 @@ const getHeaderItem = (header: HeaderWithAnchor, indentation: string, lowestRank
   return `${indentation.repeat(header.rank - lowestRank)}${entryPrefix} ${header.anchor}`;
 };
 
-const getHtmlHeaderContents = (headers: Array<HeaderWithAnchor>, lowestRank: number, htmlTemplate: string | undefined, itemTemplate: string | undefined, separator: string | undefined): string => replaceVariables(htmlTemplate ?? DEFAULT_HTML_TEMPLATE, [{
+const getHtmlHeaderContents = (headers: Array<HeaderWithAnchor>, lowestRank: number, customTemplate: string | undefined, itemTemplate: string | undefined, separator: string | undefined): string => replaceVariables(customTemplate ?? DEFAULT_HTML_TEMPLATE, [{
   key: 'ITEMS',
   replace: `\n${headers.filter(header => header.rank === lowestRank).map(header => getHeaderItemHtml(header, itemTemplate)).join(`\n${separator ?? DEFAULT_SEPARATOR}\n`)}\n`,
 }]);
@@ -154,8 +154,8 @@ export const transform = (
     closingComment,
     checkOpeningComments,
     checkClosingComments,
-    isHtml,
-    htmlTemplate,
+    isCustomMode,
+    customTemplate,
     itemTemplate,
     separator,
   }: TransformOptions = {},
@@ -197,7 +197,7 @@ export const transform = (
   const toc         =
           inferredTitle +
           titleSeparator +
-          (isHtml ? getHtmlHeaderContents(linkedHeaders, lowestRank, htmlTemplate, itemTemplate, separator) : getHeaderContents(linkedHeaders, indentation, lowestRank, _entryPrefix)) +
+          (isCustomMode ? getHtmlHeaderContents(linkedHeaders, lowestRank, customTemplate, itemTemplate, separator) : getHeaderContents(linkedHeaders, indentation, lowestRank, _entryPrefix)) +
           '\n';
   const wrappedToc  = (openingComment ?? OPENING_COMMENT) + '\n' + wrapToc(toc, inferredTitle, isFolding) + '\n' + (closingComment ?? CLOSING_COMMENT);
   if (currentToc === wrappedToc) {
