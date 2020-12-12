@@ -3,6 +3,7 @@ import updateSection from 'update-section';
 import * as md from '@textlint/markdown-to-ast';
 import {TxtNode} from '@textlint/ast-node-types';
 import {getHtmlHeaders} from './get-html-headers';
+import {getStartSection, extractParams, getParamsSection} from './params';
 import {replaceVariables} from './utils';
 import {
   OPENING_COMMENT,
@@ -10,7 +11,7 @@ import {
   CHECK_OPENING_COMMENT,
   CHECK_CLOSING_COMMENT,
   DEFAULT_TITLE,
-  DEFAULT_HTML_TEMPLATE,
+  DEFAULT_CUSTOM_TEMPLATE,
   DEFAULT_ITEM_TEMPLATE,
   DEFAULT_SEPARATOR,
 } from '..';
@@ -99,25 +100,25 @@ export const getLinesToToc = (lines: Array<string>, currentToc: string | false, 
   return lines;
 };
 
-export const getTitle = (title: string | undefined, lines: Array<string>, info: SectionInfo): string => {
+export const getTitle = (title: string | undefined, lines: Array<string>, info: SectionInfo, startSection: Array<string>): string => {
   if (title) {
     return title;
   }
 
   // eslint-disable-next-line no-magic-numbers
-  return info.hasStart ? lines[info.startIdx + 2] : DEFAULT_TITLE;
+  return info.hasStart ? lines[info.startIdx + startSection.length] : DEFAULT_TITLE;
 };
 
 const wrapTitle = (title: string, isFolding: boolean | undefined): string => isFolding && title !== '' ? `<summary>${title.replace(/^([*_]*)(.+)\1$/, '$2')}</summary>` : title;
 const wrapToc   = (toc: string, title: string, isFolding: boolean | undefined): string => isFolding && title !== '' ? `<details>\n${toc}\n</details>` : toc;
 
 // Use document context as well as command line args to infer the title
-const determineTitle = (title: string | undefined, isNotitle: boolean | undefined, isFolding: boolean | undefined, lines: Array<string>, info: SectionInfo): string => {
+const determineTitle = (title: string | undefined, isNotitle: boolean | undefined, isFolding: boolean | undefined, lines: Array<string>, info: SectionInfo, startSection: Array<string>): string => {
   if (isNotitle) {
     return '';
   }
 
-  return wrapTitle(getTitle(title, lines, info), isFolding);
+  return wrapTitle(getTitle(title, lines, info, startSection), isFolding);
 };
 
 const getHeaderContents = (headers: Array<HeaderWithAnchor>, indentation: string, lowestRank: number, entryPrefix: string): string => headers.map(header => getHeaderItem(header, indentation, lowestRank, entryPrefix)).join('\n');
@@ -126,7 +127,7 @@ const getHeaderItem = (header: HeaderWithAnchor, indentation: string, lowestRank
   return `${indentation.repeat(header.rank - lowestRank)}${entryPrefix} ${header.anchor}`;
 };
 
-const getHtmlHeaderContents = (headers: Array<HeaderWithAnchor>, lowestRank: number, customTemplate: string | undefined, itemTemplate: string | undefined, separator: string | undefined): string => replaceVariables(customTemplate ?? DEFAULT_HTML_TEMPLATE, [{
+const getHtmlHeaderContents = (headers: Array<HeaderWithAnchor>, lowestRank: number, customTemplate: string | undefined, itemTemplate: string | undefined, separator: string | undefined): string => replaceVariables(customTemplate ?? DEFAULT_CUSTOM_TEMPLATE, [{
   key: 'ITEMS',
   replace: `\n${headers.filter(header => header.rank === lowestRank).map(header => getHeaderItemHtml(header, itemTemplate)).join(`\n${separator ?? DEFAULT_SEPARATOR}\n`)}\n`,
 }]);
@@ -140,34 +141,31 @@ const getHeaderItemHtml = (header: HeaderWithAnchor, itemTemplate: string | unde
 
 export const transform = (
   content: string,
-  {
-    mode,
-    moduleName,
-    maxHeaderLevel,
-    title,
-    isNotitle,
-    isFolding,
-    entryPrefix,
-    processAll,
-    updateOnly,
-    openingComment,
-    closingComment,
-    checkOpeningComments,
-    checkClosingComments,
-    isCustomMode,
-    customTemplate,
-    itemTemplate,
-    separator,
-  }: TransformOptions = {},
+  options: TransformOptions = {},
 ): TransformResult => {
-  const _mode        = mode || 'github.com';
-  const _entryPrefix = entryPrefix || '-';
+  const lines             = content.split('\n');
+  const info: SectionInfo = updateSection.parse(lines, matchesStart(options.checkOpeningComments), matchesEnd(options.checkClosingComments));
 
-  // only limit *HTML* headings by default
-  // eslint-disable-next-line no-magic-numbers
-  const maxHeaderLevelHtml = maxHeaderLevel || 4;
-  const lines              = content.split('\n');
-  const info: SectionInfo  = updateSection.parse(lines, matchesStart(checkOpeningComments), matchesEnd(checkClosingComments));
+  const startSection     = getStartSection(lines, info);
+  const extractedOptions = extractParams(startSection.join(' '));
+  const
+    {
+      mode,
+      moduleName,
+      maxHeaderLevel,
+      title,
+      isNotitle,
+      isFolding,
+      entryPrefix,
+      processAll,
+      updateOnly,
+      openingComment,
+      closingComment,
+      isCustomMode,
+      customTemplate,
+      itemTemplate,
+      separator,
+    }                    = {...options, ...extractedOptions};
 
   if (!info.hasStart && updateOnly) {
     return {
@@ -179,6 +177,13 @@ export const transform = (
     };
   }
 
+  const _mode        = mode || 'github.com';
+  const _entryPrefix = entryPrefix || '-';
+
+  // only limit *HTML* headings by default
+  // eslint-disable-next-line no-magic-numbers
+  const maxHeaderLevelHtml = maxHeaderLevel || 4;
+
   // eslint-disable-next-line no-magic-numbers
   const currentToc = info.hasStart && lines.slice(info.startIdx, info.endIdx + 1).join('\n');
   const linesToToc = getLinesToToc(lines, currentToc, info, processAll);
@@ -189,7 +194,7 @@ export const transform = (
   const lowestRank    = Math.min(...allHeaders.map(header => header.rank));
   const linkedHeaders = allHeaders.map(header => addAnchor(_mode, moduleName, header));
 
-  const inferredTitle  = linkedHeaders.length ? determineTitle(title, isNotitle, isFolding, lines, info) : '';
+  const inferredTitle  = linkedHeaders.length ? determineTitle(title, isNotitle, isFolding, lines, info, startSection) : '';
   const titleSeparator = inferredTitle ? '\n\n' : '\n';
 
   // 4 spaces required for proper indention on Bitbucket and GitLab
@@ -199,7 +204,7 @@ export const transform = (
           titleSeparator +
           (isCustomMode ? getHtmlHeaderContents(linkedHeaders, lowestRank, customTemplate, itemTemplate, separator) : getHeaderContents(linkedHeaders, indentation, lowestRank, _entryPrefix)) +
           '\n';
-  const wrappedToc  = (openingComment ?? OPENING_COMMENT) + '\n' + wrapToc(toc, inferredTitle, isFolding) + '\n' + (closingComment ?? CLOSING_COMMENT);
+  const wrappedToc  = (openingComment ?? OPENING_COMMENT) + getParamsSection(extractedOptions) + '\n' + wrapToc(toc, inferredTitle, isFolding) + '\n' + (closingComment ?? CLOSING_COMMENT);
   if (currentToc === wrappedToc) {
     return {
       transformed: false,
@@ -212,7 +217,7 @@ export const transform = (
 
   return {
     transformed: true,
-    data: updateSection(lines.join('\n'), wrappedToc, matchesStart(checkOpeningComments), matchesEnd(checkClosingComments), true),
+    data: updateSection(lines.join('\n'), wrappedToc, matchesStart(options.checkOpeningComments), matchesEnd(options.checkClosingComments), true),
     toc,
     wrappedToc,
     reason: '',
