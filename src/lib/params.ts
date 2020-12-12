@@ -25,7 +25,6 @@ export const getStartSection = (lines: Array<string>, info: SectionInfo): Array<
   // eslint-disable-next-line no-magic-numbers
   for (let index = info.startIdx + 1; index < info.endIdx; ++index) {
     if (!/-->$/.test(lines[index].trim())) {
-      // eslint-disable-next-line no-magic-numbers
       return lines.slice(info.startIdx, index);
     }
   }
