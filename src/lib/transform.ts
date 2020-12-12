@@ -10,7 +10,7 @@ import {
   CHECK_OPENING_COMMENT,
   CHECK_CLOSING_COMMENT,
   DEFAULT_TITLE,
-  DEFAULT_HTML_TEMPLATE,
+  DEFAULT_CUSTOM_TEMPLATE,
   DEFAULT_ITEM_TEMPLATE,
   DEFAULT_SEPARATOR,
 } from '..';
@@ -126,7 +126,7 @@ const getHeaderItem = (header: HeaderWithAnchor, indentation: string, lowestRank
   return `${indentation.repeat(header.rank - lowestRank)}${entryPrefix} ${header.anchor}`;
 };
 
-const getHtmlHeaderContents = (headers: Array<HeaderWithAnchor>, lowestRank: number, customTemplate: string | undefined, itemTemplate: string | undefined, separator: string | undefined): string => replaceVariables(customTemplate ?? DEFAULT_HTML_TEMPLATE, [{
+const getHtmlHeaderContents = (headers: Array<HeaderWithAnchor>, lowestRank: number, customTemplate: string | undefined, itemTemplate: string | undefined, separator: string | undefined): string => replaceVariables(customTemplate ?? DEFAULT_CUSTOM_TEMPLATE, [{
   key: 'ITEMS',
   replace: `\n${headers.filter(header => header.rank === lowestRank).map(header => getHeaderItemHtml(header, itemTemplate)).join(`\n${separator ?? DEFAULT_SEPARATOR}\n`)}\n`,
 }]);
