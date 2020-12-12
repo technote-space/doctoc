@@ -54,3 +54,6 @@ transform(readFileSync('README.md', {
 }));
 ```
 
+## Author
+[GitHub (Technote)](https://github.com/technote-space)  
+[Blog](https://technote.space)

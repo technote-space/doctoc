@@ -18,13 +18,13 @@ export type TransformOptions = Partial<{
   customTemplate: string;
   itemTemplate: string;
   separator: string;
-}>
+}>;
 
 export type FileInfo = {
   stat: Stats,
   name: string;
   path: string;
-}
+};
 
 export type FileAndDirs = {
   directories: Array<FileInfo>;
@@ -34,7 +34,7 @@ export type FileAndDirs = {
 export type HeaderData = {
   text: Array<string>;
   tag: string;
-}
+};
 
 export type Header = {
   line: number;
@@ -44,19 +44,19 @@ export type Header = {
 
 export type HeaderWithRepetition = Header & {
   repetition: number;
-}
+};
 
 export type HeaderWithAnchor = HeaderWithRepetition & {
   anchor: string;
   hash: string;
-}
+};
 
 export type SectionInfo = {
   hasStart: boolean;
   hasEnd: boolean;
   startIdx: number;
   endIdx: number;
-}
+};
 
 export type TransformResult = {
   transformed: boolean;
@@ -64,4 +64,4 @@ export type TransformResult = {
   toc: string;
   wrappedToc: string;
   reason: string;
-}
+};
