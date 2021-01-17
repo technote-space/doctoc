@@ -146,7 +146,7 @@ export const transform = (
   const lines             = content.split('\n');
   const info: SectionInfo = updateSection.parse(lines, matchesStart(options.checkOpeningComments), matchesEnd(options.checkClosingComments));
 
-  const startSection     = getStartSection(lines, info);
+  const startSection     = getStartSection(lines, info, matchesEnd(options.checkClosingComments));
   const extractedOptions = extractParams(startSection.join(' '));
   const
     {

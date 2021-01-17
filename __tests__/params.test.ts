@@ -36,7 +36,7 @@ describe('getStartSection', () => {
       hasEnd: false,
       startIdx: -1,
       endIdx: -1,
-    })).toEqual([]);
+    }, () => false)).toEqual([]);
   });
 
   it('should return start line', () => {
@@ -45,7 +45,7 @@ describe('getStartSection', () => {
       hasEnd: true,
       startIdx: 1,
       endIdx: 5,
-    })).toEqual([OPENING_COMMENT.split('\n')[0]]);
+    }, () => false)).toEqual([OPENING_COMMENT.split('\n')[0]]);
   });
 
   it('should return start section', () => {
@@ -54,7 +54,7 @@ describe('getStartSection', () => {
       hasEnd: true,
       startIdx: 1,
       endIdx: 7,
-    })).toEqual([...OPENING_COMMENT.split('\n'), '<!-- param::test1::test1:: -->', '<!-- param::test2::test2:: -->']);
+    }, () => false)).toEqual([...OPENING_COMMENT.split('\n'), '<!-- param::test1::test1:: -->', '<!-- param::test2::test2:: -->']);
   });
 });
 
