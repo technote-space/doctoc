@@ -46,8 +46,12 @@ describe('findMarkdownFiles', () => {
         'path': resolve(__dirname, 'fixtures/readme-with-nested-markdown.md'),
       },
       {
-        'name': 'readme-with-params.md',
-        'path': resolve(__dirname, 'fixtures/readme-with-params.md'),
+        'name': 'readme-with-params1.md',
+        'path': resolve(__dirname, 'fixtures/readme-with-params1.md'),
+      },
+      {
+        'name': 'readme-with-params2.md',
+        'path': resolve(__dirname, 'fixtures/readme-with-params2.md'),
       },
       {
         'name': 'readme-with-weird-headers.md',
