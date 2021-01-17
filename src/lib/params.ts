@@ -17,14 +17,14 @@ const converter    = {
   separator: (value: string): string => String(value),
 };
 
-export const getStartSection = (lines: Array<string>, info: SectionInfo): Array<string> => {
+export const getStartSection = (lines: Array<string>, info: SectionInfo, matchesEnd: (line: string) => boolean): Array<string> => {
   if (!info.hasStart) {
     return [];
   }
 
   // eslint-disable-next-line no-magic-numbers
   for (let index = info.startIdx + 1; index < info.endIdx; ++index) {
-    if (!/-->$/.test(lines[index].trim())) {
+    if (!/-->$/.test(lines[index].trim()) || matchesEnd(lines[index])) {
       return lines.slice(info.startIdx, index);
     }
   }
