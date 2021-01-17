@@ -6,7 +6,6 @@ docker convenience functions on top of dockerode
 <!-- param::mode::github.com:: -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 <!-- param::isNotitle::false:: param::maxHeaderLevel::8:: -->
-
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ```js

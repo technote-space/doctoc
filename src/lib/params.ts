@@ -24,9 +24,14 @@ export const getStartSection = (lines: Array<string>, info: SectionInfo, matches
 
   // eslint-disable-next-line no-magic-numbers
   for (let index = info.startIdx + 1; index < info.endIdx; ++index) {
-    if (!/-->$/.test(lines[index].trim()) || matchesEnd(lines[index])) {
+    if (!/-->$/.test(lines[index].trim())) {
       return lines.slice(info.startIdx, index);
     }
+  }
+
+  // consider empty toc with params
+  if (info.endIdx < lines.length && matchesEnd(lines[info.endIdx])) {
+    return lines.slice(info.startIdx, info.endIdx);
   }
 
   return [lines[info.startIdx]];

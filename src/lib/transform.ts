@@ -100,25 +100,32 @@ export const getLinesToToc = (lines: Array<string>, currentToc: string | false, 
   return lines;
 };
 
-export const getTitle = (title: string | undefined, lines: Array<string>, info: SectionInfo, startSection: Array<string>): string => {
+export const getTitle = (title: string | undefined, lines: Array<string>, info: SectionInfo, startSection: Array<string>, matchesEnd: (line: string) => boolean): string => {
   if (title) {
     return title;
   }
 
-  // eslint-disable-next-line no-magic-numbers
-  return info.hasStart && lines[info.startIdx + startSection.length].trim() ? lines[info.startIdx + startSection.length] : DEFAULT_TITLE;
+  if (info.hasStart && lines[info.startIdx + startSection.length].trim()) {
+    if (matchesEnd(lines[info.startIdx + startSection.length])) {
+      return DEFAULT_TITLE;
+    }
+
+    return lines[info.startIdx + startSection.length].trim();
+  }
+
+  return DEFAULT_TITLE;
 };
 
 const wrapTitle = (title: string, isFolding: boolean | undefined): string => isFolding && title !== '' ? `<summary>${title.replace(/^([*_]*)(.+)\1$/, '$2')}</summary>` : title;
 const wrapToc   = (toc: string, title: string, isFolding: boolean | undefined): string => isFolding && title !== '' ? `<details>\n${toc}\n</details>` : toc;
 
 // Use document context as well as command line args to infer the title
-const determineTitle = (title: string | undefined, isNotitle: boolean | undefined, isFolding: boolean | undefined, lines: Array<string>, info: SectionInfo, startSection: Array<string>): string => {
+const determineTitle = (title: string | undefined, isNotitle: boolean | undefined, isFolding: boolean | undefined, lines: Array<string>, info: SectionInfo, startSection: Array<string>, matchesEnd: (line: string) => boolean): string => {
   if (isNotitle) {
     return '';
   }
 
-  return wrapTitle(getTitle(title, lines, info, startSection), isFolding);
+  return wrapTitle(getTitle(title, lines, info, startSection, matchesEnd), isFolding);
 };
 
 const getHeaderContents = (headers: Array<HeaderWithAnchor>, indentation: string, lowestRank: number, entryPrefix: string): string => headers.map(header => getHeaderItem(header, indentation, lowestRank, entryPrefix)).join('\n');
@@ -194,7 +201,7 @@ export const transform = (
   const lowestRank    = Math.min(...allHeaders.map(header => header.rank));
   const linkedHeaders = allHeaders.map(header => addAnchor(_mode, moduleName, header));
 
-  const inferredTitle  = linkedHeaders.length ? determineTitle(title, isNotitle, isFolding, lines, info, startSection) : '';
+  const inferredTitle  = linkedHeaders.length ? determineTitle(title, isNotitle, isFolding, lines, info, startSection, matchesEnd(options.checkClosingComments)) : '';
   const titleSeparator = inferredTitle ? '\n\n' : '\n';
 
   // 4 spaces required for proper indention on Bitbucket and GitLab
