@@ -106,7 +106,7 @@ export const getTitle = (title: string | undefined, lines: Array<string>, info: 
   }
 
   // eslint-disable-next-line no-magic-numbers
-  return info.hasStart ? lines[info.startIdx + startSection.length] : DEFAULT_TITLE;
+  return info.hasStart && lines[info.startIdx + startSection.length].trim() ? lines[info.startIdx + startSection.length] : DEFAULT_TITLE;
 };
 
 const wrapTitle = (title: string, isFolding: boolean | undefined): string => isFolding && title !== '' ? `<summary>${title.replace(/^([*_]*)(.+)\1$/, '$2')}</summary>` : title;
