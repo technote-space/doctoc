@@ -36,7 +36,7 @@ describe('transform', () => {
 
   it('override params (not empty toc)', () => {
     const content = readFileSync(resolve(__dirname, 'fixtures/readme-with-params2.md'), 'utf8');
-    const headers = transform(content, {isNotitle: true, isFolding: false, maxHeaderLevel: 1, entryPrefix: '*'});
+    const headers = transform(content, {isNotitle: true, isFolding: false, maxHeaderLevel: 1, entryPrefix: '*', footer: 'footer'});
 
     expect(headers.wrappedToc.split('\n')).toEqual(
       [
@@ -46,6 +46,7 @@ describe('transform', () => {
         '<!-- param::mode::github.com:: -->',
         '<!-- param::isNotitle::false:: -->',
         '<!-- param::maxHeaderLevel::8:: -->',
+        '<!-- param::footer::test footer:: -->',
         '**Test title**',
         '',
         '- [Installation](#installation)',
@@ -58,6 +59,8 @@ describe('transform', () => {
         '    - [dockops::Containers::clean(id, cb)](#dockopscontainerscleanid-cb)',
         '      - [Parameters:](#parameters-2)',
         '- [^License](#license)',
+        '',
+        'test footer',
         '',
         '<!-- END doctoc generated TOC please keep comment here to allow auto update -->',
       ],

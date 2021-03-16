@@ -18,6 +18,7 @@ export type TransformOptions = Partial<{
   customTemplate: string;
   itemTemplate: string;
   separator: string;
+  footer: string;
 }>;
 
 export type FileInfo = {

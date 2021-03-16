@@ -172,6 +172,7 @@ export const transform = (
       customTemplate,
       itemTemplate,
       separator,
+      footer,
     }                    = {...options, ...extractedOptions};
 
   if (!info.hasStart && updateOnly) {
@@ -200,17 +201,14 @@ export const transform = (
   const allHeaders    = countHeaders(headers, _mode, moduleName);
   const lowestRank    = Math.min(...allHeaders.map(header => header.rank));
   const linkedHeaders = allHeaders.map(header => addAnchor(_mode, moduleName, header));
-
-  const inferredTitle  = linkedHeaders.length ? determineTitle(title, isNotitle, isFolding, lines, info, startSection, matchesEnd(options.checkClosingComments)) : '';
-  const titleSeparator = inferredTitle ? '\n\n' : '\n';
+  const inferredTitle = linkedHeaders.length ? determineTitle(title, isNotitle, isFolding, lines, info, startSection, matchesEnd(options.checkClosingComments)) : '';
 
   // 4 spaces required for proper indention on Bitbucket and GitLab
   const indentation = (_mode === 'bitbucket.org' || _mode === 'gitlab.com') ? '    ' : '  ';
   const toc         =
-          inferredTitle +
-          titleSeparator +
-          (isCustomMode ? getHtmlHeaderContents(linkedHeaders, lowestRank, customTemplate, itemTemplate, separator) : getHeaderContents(linkedHeaders, indentation, lowestRank, _entryPrefix)) +
-          '\n';
+          inferredTitle + (inferredTitle ? '\n\n' : '\n') +
+          (isCustomMode ? getHtmlHeaderContents(linkedHeaders, lowestRank, customTemplate, itemTemplate, separator) : getHeaderContents(linkedHeaders, indentation, lowestRank, _entryPrefix)) + '\n' +
+          (footer ? `\n${footer}\n` : '');
   const wrappedToc  = (openingComment ?? OPENING_COMMENT) + getParamsSection(extractedOptions) + '\n' + wrapToc(toc, inferredTitle, isFolding) + '\n' + (closingComment ?? CLOSING_COMMENT);
   if (currentToc === wrappedToc) {
     return {
