@@ -1,7 +1,8 @@
+import type {TxtNode} from '@textlint/ast-node-types';
+import type {TransformOptions, Header, HeaderWithRepetition, HeaderWithAnchor, SectionInfo, TransformResult} from '../types';
 import {anchor, getUrlHash} from '@technote-space/anchor-markdown-header';
 import updateSection from 'update-section';
 import * as md from '@textlint/markdown-to-ast';
-import {TxtNode} from '@textlint/ast-node-types';
 import {getHtmlHeaders} from './get-html-headers';
 import {getStartSection, extractParams, getParamsSection} from './params';
 import {replaceVariables} from './utils';
@@ -15,7 +16,6 @@ import {
   DEFAULT_ITEM_TEMPLATE,
   DEFAULT_SEPARATOR,
 } from '..';
-import {TransformOptions, Header, HeaderWithRepetition, HeaderWithAnchor, SectionInfo, TransformResult} from '../types';
 
 const getTargetComments = (checkComments: Array<string>, defaultComments: string): Array<string> => {
   if (checkComments.length) {
@@ -146,6 +146,21 @@ const getHeaderItemHtml = (header: HeaderWithAnchor, itemTemplate: string | unde
   ]);
 };
 
+const buildToc = (
+  isCustomMode: boolean | undefined,
+  inferredTitle: string,
+  linkedHeaders: HeaderWithAnchor[],
+  lowestRank: number,
+  customTemplate: string | undefined,
+  itemTemplate: string | undefined,
+  separator: string | undefined,
+  indentation: string,
+  entryPrefix: string,
+  footer: string | undefined,
+): string => inferredTitle + (inferredTitle ? '\n\n' : '\n') +
+  (isCustomMode ? getHtmlHeaderContents(linkedHeaders, lowestRank, customTemplate, itemTemplate, separator) : getHeaderContents(linkedHeaders, indentation, lowestRank, entryPrefix)) + '\n' +
+  (footer ? `\n${footer}\n` : '');
+
 type ResultArgs = {
   transformed: true;
   result: Omit<TransformResult, 'transformed' | 'reason'>
@@ -219,10 +234,7 @@ export const transform = (
 
   // 4 spaces required for proper indention on Bitbucket and GitLab
   const indentation = (_mode === 'bitbucket.org' || _mode === 'gitlab.com') ? '    ' : '  ';
-  const toc         =
-          inferredTitle + (inferredTitle ? '\n\n' : '\n') +
-          (isCustomMode ? getHtmlHeaderContents(linkedHeaders, lowestRank, customTemplate, itemTemplate, separator) : getHeaderContents(linkedHeaders, indentation, lowestRank, _entryPrefix)) + '\n' +
-          (footer ? `\n${footer}\n` : '');
+  const toc         = buildToc(isCustomMode, inferredTitle, linkedHeaders, lowestRank, customTemplate, itemTemplate, separator, indentation, _entryPrefix, footer);
   const wrappedToc  = (openingComment ?? OPENING_COMMENT) + getParamsSection(extractedOptions) + '\n' + wrapToc(toc, inferredTitle, isFolding) + '\n' + (closingComment ?? CLOSING_COMMENT);
   if (currentToc === wrappedToc) {
     return getResult({transformed: false, reason: 'not updated'});
