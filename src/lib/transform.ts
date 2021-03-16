@@ -146,6 +146,26 @@ const getHeaderItemHtml = (header: HeaderWithAnchor, itemTemplate: string | unde
   ]);
 };
 
+type ResultArgs = {
+  transformed: true;
+  result: Omit<TransformResult, 'transformed' | 'reason'>
+} | {
+  transformed: false;
+  reason: string;
+}
+const getResult = (result: ResultArgs): TransformResult => ({
+  transformed: result.transformed,
+  ...(result.transformed ? {
+    ...result.result,
+    reason: '',
+  } : {
+    data: '',
+    toc: '',
+    wrappedToc: '',
+    reason: result.reason,
+  }),
+});
+
 export const transform = (
   content: string,
   options: TransformOptions = {},
@@ -176,13 +196,7 @@ export const transform = (
     }                    = {...options, ...extractedOptions};
 
   if (!info.hasStart && updateOnly) {
-    return {
-      transformed: false,
-      data: '',
-      toc: '',
-      wrappedToc: '',
-      reason: 'update only',
-    };
+    return getResult({transformed: false, reason: 'update only'});
   }
 
   const _mode        = mode || 'github.com';
@@ -211,22 +225,17 @@ export const transform = (
           (footer ? `\n${footer}\n` : '');
   const wrappedToc  = (openingComment ?? OPENING_COMMENT) + getParamsSection(extractedOptions) + '\n' + wrapToc(toc, inferredTitle, isFolding) + '\n' + (closingComment ?? CLOSING_COMMENT);
   if (currentToc === wrappedToc) {
-    return {
-      transformed: false,
-      data: '',
-      toc: '',
-      wrappedToc: '',
-      reason: 'not updated',
-    };
+    return getResult({transformed: false, reason: 'not updated'});
   }
 
-  return {
+  return getResult({
     transformed: true,
-    data: updateSection(lines.join('\n'), wrappedToc, matchesStart(options.checkOpeningComments), matchesEnd(options.checkClosingComments), true),
-    toc,
-    wrappedToc,
-    reason: '',
-  };
+    result: {
+      data: updateSection(lines.join('\n'), wrappedToc, matchesStart(options.checkOpeningComments), matchesEnd(options.checkClosingComments), true),
+      toc,
+      wrappedToc,
+    },
+  });
 };
 
 export default transform;
