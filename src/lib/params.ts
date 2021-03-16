@@ -15,6 +15,7 @@ const converter    = {
   customTemplate: (value: string): string => String(value),
   itemTemplate: (value: string): string => String(value),
   separator: (value: string): string => String(value),
+  footer: (value: string): string => String(value),
 };
 
 export const getStartSection = (lines: Array<string>, info: SectionInfo, matchesEnd: (line: string) => boolean): Array<string> => {

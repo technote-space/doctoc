@@ -1,7 +1,8 @@
+import type {TxtNode} from '@textlint/ast-node-types';
+import type {TransformOptions, Header, HeaderWithRepetition, HeaderWithAnchor, SectionInfo, TransformResult} from '../types';
 import {anchor, getUrlHash} from '@technote-space/anchor-markdown-header';
 import updateSection from 'update-section';
 import * as md from '@textlint/markdown-to-ast';
-import {TxtNode} from '@textlint/ast-node-types';
 import {getHtmlHeaders} from './get-html-headers';
 import {getStartSection, extractParams, getParamsSection} from './params';
 import {replaceVariables} from './utils';
@@ -15,7 +16,6 @@ import {
   DEFAULT_ITEM_TEMPLATE,
   DEFAULT_SEPARATOR,
 } from '..';
-import {TransformOptions, Header, HeaderWithRepetition, HeaderWithAnchor, SectionInfo, TransformResult} from '../types';
 
 const getTargetComments = (checkComments: Array<string>, defaultComments: string): Array<string> => {
   if (checkComments.length) {
@@ -146,6 +146,41 @@ const getHeaderItemHtml = (header: HeaderWithAnchor, itemTemplate: string | unde
   ]);
 };
 
+const buildToc = (
+  isCustomMode: boolean | undefined,
+  inferredTitle: string,
+  linkedHeaders: HeaderWithAnchor[],
+  lowestRank: number,
+  customTemplate: string | undefined,
+  itemTemplate: string | undefined,
+  separator: string | undefined,
+  indentation: string,
+  entryPrefix: string,
+  footer: string | undefined,
+): string => inferredTitle + (inferredTitle ? '\n\n' : '\n') +
+  (isCustomMode ? getHtmlHeaderContents(linkedHeaders, lowestRank, customTemplate, itemTemplate, separator) : getHeaderContents(linkedHeaders, indentation, lowestRank, entryPrefix)) + '\n' +
+  (footer ? `\n${footer}\n` : '');
+
+type ResultArgs = {
+  transformed: true;
+  result: Omit<TransformResult, 'transformed' | 'reason'>
+} | {
+  transformed: false;
+  reason: string;
+}
+const getResult = (result: ResultArgs): TransformResult => ({
+  transformed: result.transformed,
+  ...(result.transformed ? {
+    ...result.result,
+    reason: '',
+  } : {
+    data: '',
+    toc: '',
+    wrappedToc: '',
+    reason: result.reason,
+  }),
+});
+
 export const transform = (
   content: string,
   options: TransformOptions = {},
@@ -172,16 +207,11 @@ export const transform = (
       customTemplate,
       itemTemplate,
       separator,
+      footer,
     }                    = {...options, ...extractedOptions};
 
   if (!info.hasStart && updateOnly) {
-    return {
-      transformed: false,
-      data: '',
-      toc: '',
-      wrappedToc: '',
-      reason: 'update only',
-    };
+    return getResult({transformed: false, reason: 'update only'});
   }
 
   const _mode        = mode || 'github.com';
@@ -200,35 +230,24 @@ export const transform = (
   const allHeaders    = countHeaders(headers, _mode, moduleName);
   const lowestRank    = Math.min(...allHeaders.map(header => header.rank));
   const linkedHeaders = allHeaders.map(header => addAnchor(_mode, moduleName, header));
-
-  const inferredTitle  = linkedHeaders.length ? determineTitle(title, isNotitle, isFolding, lines, info, startSection, matchesEnd(options.checkClosingComments)) : '';
-  const titleSeparator = inferredTitle ? '\n\n' : '\n';
+  const inferredTitle = linkedHeaders.length ? determineTitle(title, isNotitle, isFolding, lines, info, startSection, matchesEnd(options.checkClosingComments)) : '';
 
   // 4 spaces required for proper indention on Bitbucket and GitLab
   const indentation = (_mode === 'bitbucket.org' || _mode === 'gitlab.com') ? '    ' : '  ';
-  const toc         =
-          inferredTitle +
-          titleSeparator +
-          (isCustomMode ? getHtmlHeaderContents(linkedHeaders, lowestRank, customTemplate, itemTemplate, separator) : getHeaderContents(linkedHeaders, indentation, lowestRank, _entryPrefix)) +
-          '\n';
+  const toc         = buildToc(isCustomMode, inferredTitle, linkedHeaders, lowestRank, customTemplate, itemTemplate, separator, indentation, _entryPrefix, footer);
   const wrappedToc  = (openingComment ?? OPENING_COMMENT) + getParamsSection(extractedOptions) + '\n' + wrapToc(toc, inferredTitle, isFolding) + '\n' + (closingComment ?? CLOSING_COMMENT);
   if (currentToc === wrappedToc) {
-    return {
-      transformed: false,
-      data: '',
-      toc: '',
-      wrappedToc: '',
-      reason: 'not updated',
-    };
+    return getResult({transformed: false, reason: 'not updated'});
   }
 
-  return {
+  return getResult({
     transformed: true,
-    data: updateSection(lines.join('\n'), wrappedToc, matchesStart(options.checkOpeningComments), matchesEnd(options.checkClosingComments), true),
-    toc,
-    wrappedToc,
-    reason: '',
-  };
+    result: {
+      data: updateSection(lines.join('\n'), wrappedToc, matchesStart(options.checkOpeningComments), matchesEnd(options.checkClosingComments), true),
+      toc,
+      wrappedToc,
+    },
+  });
 };
 
 export default transform;
