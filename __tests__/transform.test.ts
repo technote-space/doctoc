@@ -76,6 +76,7 @@ describe('transform', () => {
     ['My Module',
       '=========',
       'Some text here',
+      '',
       'API',
       '---------',
     ].join('\n'),
