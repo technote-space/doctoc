@@ -1,6 +1,6 @@
 /* eslint-disable no-magic-numbers */
-import { describe, expect, it, vi } from 'vitest';
 import { resolve } from 'path';
+import { describe, expect, it, vi } from 'vitest';
 import { findMarkdownFiles } from '../src';
 
 describe('findMarkdownFiles', () => {

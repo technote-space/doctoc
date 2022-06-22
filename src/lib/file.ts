@@ -1,7 +1,7 @@
-import path from 'path';
 import fs from 'fs';
-import { FileInfo, FileAndDirs } from '../types';
+import path from 'path';
 import { MARKDOWN_EXTENSIONS, IGNORED_DIRS } from '..';
+import { FileInfo, FileAndDirs } from '../types';
 
 const separateFilesAndDirs = (fileInfos: Array<FileInfo>): FileAndDirs => ({
   directories: fileInfos.filter(info => info.stat.isDirectory() && !IGNORED_DIRS.includes(info.name)),

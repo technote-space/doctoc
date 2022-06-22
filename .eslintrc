@@ -5,7 +5,8 @@
     "plugin:@typescript-eslint/eslint-recommended"
   ],
   "plugins": [
-    "@typescript-eslint"
+    "@typescript-eslint",
+    "import"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -15,7 +16,8 @@
   "env": {
     "node": true,
     "jest": true,
-    "es6": true
+    "es6": true,
+    "browser": true
   },
   "settings": {
     "react": {
@@ -47,12 +49,6 @@
         }
       }
     ],
-    "no-magic-numbers": [
-      "error",
-      {
-        "ignoreArrayIndexes": true
-      }
-    ],
     "eqeqeq": "error",
     "block-scoped-var": "error",
     "complexity": [
@@ -61,7 +57,6 @@
         "maximum": 20
       }
     ],
-    "curly": "error",
     "default-case": "error",
     "dot-location": [
       "error",
@@ -76,16 +71,6 @@
       {
         "before": false,
         "after": true
-      }
-    ],
-    "id-length": [
-      "error",
-      {
-        "min": 2,
-        "properties": "never",
-        "exceptions": [
-          "$"
-        ]
       }
     ],
     "indent": [
@@ -119,19 +104,12 @@
       }
     ],
     "semi": [
-      "error",
-      "always"
+      "error"
     ],
-    "@typescript-eslint/naming-convention": [
-      "error",
-      {
-        "selector": "interface",
-        "format": ["PascalCase"],
-        "custom": {
-          "regex": "^I[A-Z]",
-          "match": true
-        }
-      }
-    ]
+    "sort-imports": 0,
+    "import/order": [2, {
+      "groups": ["type", "builtin", "external", "internal", "parent", "sibling", "index", "object"],
+      "alphabetize": { "order": "asc", "caseInsensitive": true }
+    }]
   }
 }

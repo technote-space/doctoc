@@ -1,11 +1,8 @@
-import type { TxtNode } from '@textlint/ast-node-types';
 import type { TransformOptions, Header, HeaderWithRepetition, HeaderWithAnchor, SectionInfo, TransformResult } from '../types';
+import type { TxtNode } from '@textlint/ast-node-types';
 import { anchor, getUrlHash } from '@technote-space/anchor-markdown-header';
-import updateSection from 'update-section';
 import * as md from '@textlint/markdown-to-ast';
-import { getHtmlHeaders } from './get-html-headers';
-import { getStartSection, extractParams, getParamsSection } from './params';
-import { replaceVariables } from './utils';
+import updateSection from 'update-section';
 import {
   OPENING_COMMENT,
   CLOSING_COMMENT,
@@ -16,6 +13,9 @@ import {
   DEFAULT_ITEM_TEMPLATE,
   DEFAULT_SEPARATOR,
 } from '..';
+import { getHtmlHeaders } from './get-html-headers';
+import { getStartSection, extractParams, getParamsSection } from './params';
+import { replaceVariables } from './utils';
 
 const getTargetComments = (checkComments: Array<string>, defaultComments: string): Array<string> => {
   if (checkComments.length) {

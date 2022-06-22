@@ -1,7 +1,7 @@
 /* eslint-disable no-magic-numbers */
-import { describe, expect, it } from 'vitest';
-import { resolve } from 'path';
 import { readFileSync } from 'fs';
+import { resolve } from 'path';
+import { describe, expect, it } from 'vitest';
 import { transform } from '../src';
 
 describe('transform', () => {
