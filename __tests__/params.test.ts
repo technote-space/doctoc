@@ -1,4 +1,5 @@
 /* eslint-disable no-magic-numbers */
+import { describe, expect, it } from 'vitest';
 import {extractParams, getStartSection, getParamsSection} from '../src/lib/params';
 import {CLOSING_COMMENT, OPENING_COMMENT} from '../src';
 

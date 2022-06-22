@@ -1,4 +1,5 @@
 /* eslint-disable no-magic-numbers */
+import { describe, expect, it } from 'vitest';
 import {resolve} from 'path';
 import {readFileSync} from 'fs';
 import {transform} from '../src';

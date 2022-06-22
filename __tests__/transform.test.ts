@@ -1,4 +1,5 @@
 /* eslint-disable no-magic-numbers */
+import { describe, expect, it } from 'vitest';
 import {transform} from '../src';
 import {getLinesToToc, matchesStart, matchesEnd} from '../src/lib/transform';
 import {OPENING_COMMENT, CLOSING_COMMENT} from '../src';
