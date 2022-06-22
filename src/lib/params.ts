@@ -1,4 +1,4 @@
-import {SectionInfo, TransformOptions} from '../types';
+import { SectionInfo, TransformOptions } from '../types';
 
 const getBoolValue = (input: string): boolean => !['false', '0', '', 'no', 'n'].includes(input.trim().toLowerCase());
 const converter    = {
@@ -43,7 +43,7 @@ export const extractParams = (section: string): TransformOptions => Object.assig
 ).filter(
   (items): items is Array<string> => items !== null && items[1] in converter,
 ).map(
-  items => ({[items[1]]: converter[items[1]](items[2])}),
+  items => ({ [items[1]]: converter[items[1]](items[2]) }),
 ) ?? []));
 
 export const getParamsSection = (options: TransformOptions): string => {

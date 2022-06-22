@@ -1,8 +1,8 @@
 /* eslint-disable no-magic-numbers */
 import { describe, expect, it } from 'vitest';
-import {transform} from '../src';
-import {getLinesToToc, matchesStart, matchesEnd} from '../src/lib/transform';
-import {OPENING_COMMENT, CLOSING_COMMENT} from '../src';
+import { transform } from '../src';
+import { getLinesToToc, matchesStart, matchesEnd } from '../src/lib/transform';
+import { OPENING_COMMENT, CLOSING_COMMENT } from '../src';
 
 const check = (
   name: string,
@@ -500,7 +500,7 @@ describe('transform', () => {
       '',
     ].join('\n');
 
-    const res = transform(md, {processAll: true});
+    const res = transform(md, { processAll: true });
 
     expect(res.transformed).toBe(true);
     expect(res.toc.split('\n')).toEqual(

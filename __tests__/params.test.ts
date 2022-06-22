@@ -1,7 +1,7 @@
 /* eslint-disable no-magic-numbers */
 import { describe, expect, it } from 'vitest';
-import {extractParams, getStartSection, getParamsSection} from '../src/lib/params';
-import {CLOSING_COMMENT, OPENING_COMMENT} from '../src';
+import { extractParams, getStartSection, getParamsSection } from '../src/lib/params';
+import { CLOSING_COMMENT, OPENING_COMMENT } from '../src';
 
 describe('extractParams', () => {
   const opening = OPENING_COMMENT.replace('\n', ' ');

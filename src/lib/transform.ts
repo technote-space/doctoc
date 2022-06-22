@@ -1,11 +1,11 @@
-import type {TxtNode} from '@textlint/ast-node-types';
-import type {TransformOptions, Header, HeaderWithRepetition, HeaderWithAnchor, SectionInfo, TransformResult} from '../types';
-import {anchor, getUrlHash} from '@technote-space/anchor-markdown-header';
+import type { TxtNode } from '@textlint/ast-node-types';
+import type { TransformOptions, Header, HeaderWithRepetition, HeaderWithAnchor, SectionInfo, TransformResult } from '../types';
+import { anchor, getUrlHash } from '@technote-space/anchor-markdown-header';
 import updateSection from 'update-section';
 import * as md from '@textlint/markdown-to-ast';
-import {getHtmlHeaders} from './get-html-headers';
-import {getStartSection, extractParams, getParamsSection} from './params';
-import {replaceVariables} from './utils';
+import { getHtmlHeaders } from './get-html-headers';
+import { getStartSection, extractParams, getParamsSection } from './params';
+import { replaceVariables } from './utils';
 import {
   OPENING_COMMENT,
   CLOSING_COMMENT,
@@ -141,8 +141,8 @@ const getHtmlHeaderContents = (headers: Array<HeaderWithAnchor>, lowestRank: num
 
 const getHeaderItemHtml = (header: HeaderWithAnchor, itemTemplate: string | undefined): string => {
   return replaceVariables(itemTemplate ?? DEFAULT_ITEM_TEMPLATE, [
-    {key: 'LINK', replace: `#${header.hash}`},
-    {key: 'TEXT', replace: header.name},
+    { key: 'LINK', replace: `#${header.hash}` },
+    { key: 'TEXT', replace: header.name },
   ]);
 };
 
@@ -208,10 +208,10 @@ export const transform = (
       itemTemplate,
       separator,
       footer,
-    }                    = {...options, ...extractedOptions};
+    }                    = { ...options, ...extractedOptions };
 
   if (!info.hasStart && updateOnly) {
-    return getResult({transformed: false, reason: 'update only'});
+    return getResult({ transformed: false, reason: 'update only' });
   }
 
   const _mode        = mode || 'github.com';
@@ -237,7 +237,7 @@ export const transform = (
   const toc         = buildToc(isCustomMode, inferredTitle, linkedHeaders, lowestRank, customTemplate, itemTemplate, separator, indentation, _entryPrefix, footer);
   const wrappedToc  = (openingComment ?? OPENING_COMMENT) + getParamsSection(extractedOptions) + '\n' + wrapToc(toc, inferredTitle, isFolding) + '\n' + (closingComment ?? CLOSING_COMMENT);
   if (currentToc === wrappedToc) {
-    return getResult({transformed: false, reason: 'not updated'});
+    return getResult({ transformed: false, reason: 'not updated' });
   }
 
   return getResult({

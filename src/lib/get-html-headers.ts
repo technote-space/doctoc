@@ -1,6 +1,6 @@
 import * as htmlparser from 'htmlparser2';
 import * as md from '@textlint/markdown-to-ast';
-import {HeaderData, Header} from '../types';
+import { HeaderData, Header } from '../types';
 
 const addLinenos = (lines: Array<string>, headers: Array<HeaderData>): Array<Omit<Header, 'rank'> & HeaderData> => {
   let current = 0;
@@ -73,11 +73,11 @@ export const getHtmlHeaders = (lines: Array<string>, maxHeaderLevel: number): Ar
       // eslint-disable-next-line no-magic-numbers
       if (grabbing[grabbing.length - 1] === name) {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        headers.push({text: [...text], tag: grabbing.pop()!});
+        headers.push({ text: [...text], tag: grabbing.pop()! });
         text.length = 0;
       }
     },
-  }, {decodeEntities: true});
+  }, { decodeEntities: true });
 
   parser.write(source);
   parser.end();

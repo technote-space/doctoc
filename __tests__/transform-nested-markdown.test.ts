@@ -1,8 +1,8 @@
 /* eslint-disable no-magic-numbers */
 import { describe, expect, it } from 'vitest';
-import {resolve} from 'path';
-import {readFileSync} from 'fs';
-import {transform} from '../src';
+import { resolve } from 'path';
+import { readFileSync } from 'fs';
+import { transform } from '../src';
 
 describe('transform', () => {
   it('\nhandle inline links and images', () => {

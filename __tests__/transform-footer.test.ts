@@ -1,13 +1,13 @@
 /* eslint-disable no-magic-numbers */
 import { describe, expect, it } from 'vitest';
-import {resolve} from 'path';
-import {readFileSync} from 'fs';
-import {transform} from '../src';
+import { resolve } from 'path';
+import { readFileSync } from 'fs';
+import { transform } from '../src';
 
 describe('transform', () => {
   it('add footer', () => {
     const content = readFileSync(resolve(__dirname, 'fixtures/readme-with-custom-title.md'), 'utf8');
-    const headers = transform(content, {title: '## Table of Contents', footer: '*generated with [TOC Generator](https://github.com/technote-space/toc-generator)*'});
+    const headers = transform(content, { title: '## Table of Contents', footer: '*generated with [TOC Generator](https://github.com/technote-space/toc-generator)*' });
 
     expect(headers.toc.split('\n')).toEqual(
       ['## Table of Contents',

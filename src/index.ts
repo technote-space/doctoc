@@ -1,5 +1,5 @@
-export {findMarkdownFiles} from './lib/file';
-export {transform} from './lib/transform';
+export { findMarkdownFiles } from './lib/file';
+export { transform } from './lib/transform';
 export {
   OPENING_COMMENT,
   CLOSING_COMMENT,
