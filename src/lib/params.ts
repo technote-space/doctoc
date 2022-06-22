@@ -1,4 +1,4 @@
-import { SectionInfo, TransformOptions } from '../types';
+import type { SectionInfo, TransformOptions } from '../types';
 
 const getBoolValue = (input: string): boolean => !['false', '0', '', 'no', 'n'].includes(input.trim().toLowerCase());
 const converter    = {

@@ -1,6 +1,6 @@
+import type { HeaderData, Header } from '../types';
 import * as md from '@textlint/markdown-to-ast';
 import * as htmlparser from 'htmlparser2';
-import { HeaderData, Header } from '../types';
 
 const addLinenos = (lines: Array<string>, headers: Array<HeaderData>): Array<Omit<Header, 'rank'> & HeaderData> => {
   let current = 0;
