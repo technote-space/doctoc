@@ -1,12 +1,13 @@
 /* eslint-disable no-magic-numbers */
-import {resolve} from 'path';
-import {readFileSync} from 'fs';
-import {transform} from '../src';
+import { readFileSync } from 'fs';
+import { resolve } from 'path';
+import { describe, expect, it } from 'vitest';
+import { transform } from '../src';
 
 describe('transform', () => {
   it('override params (empty toc)', () => {
     const content = readFileSync(resolve(__dirname, 'fixtures/readme-with-params1.md'), 'utf8');
-    const headers = transform(content, {isNotitle: true, isFolding: false, maxHeaderLevel: 1, entryPrefix: '*'});
+    const headers = transform(content, { isNotitle: true, isFolding: false, maxHeaderLevel: 1, entryPrefix: '*' });
 
     expect(headers.wrappedToc.split('\n')).toEqual(
       [
@@ -36,7 +37,7 @@ describe('transform', () => {
 
   it('override params (not empty toc)', () => {
     const content = readFileSync(resolve(__dirname, 'fixtures/readme-with-params2.md'), 'utf8');
-    const headers = transform(content, {isNotitle: true, isFolding: false, maxHeaderLevel: 1, entryPrefix: '*', footer: 'footer'});
+    const headers = transform(content, { isNotitle: true, isFolding: false, maxHeaderLevel: 1, entryPrefix: '*', footer: 'footer' });
 
     expect(headers.wrappedToc.split('\n')).toEqual(
       [
@@ -69,7 +70,7 @@ describe('transform', () => {
 
   it('not override params', () => {
     const content = readFileSync(resolve(__dirname, 'fixtures/readme-with-params1.md'), 'utf8');
-    const headers = transform(content, {isFolding: true, title: 'Test title'});
+    const headers = transform(content, { isFolding: true, title: 'Test title' });
 
     expect(headers.wrappedToc.split('\n')).toEqual(
       [

@@ -1,10 +1,11 @@
 /* eslint-disable no-magic-numbers */
-import {resolve} from 'path';
-import {findMarkdownFiles} from '../src';
+import { resolve } from 'path';
+import { describe, expect, it, vi } from 'vitest';
+import { findMarkdownFiles } from '../src';
 
 describe('findMarkdownFiles', () => {
   it('should find markdown files', () => {
-    const mockLog = jest.spyOn(console, 'log').mockImplementation(() => ({}));
+    const mockLog = vi.spyOn(console, 'log').mockImplementation(() => ({}));
     expect(findMarkdownFiles(resolve(__dirname, 'fixtures')).map(info => ({
       name: info.name,
       path: info.path,

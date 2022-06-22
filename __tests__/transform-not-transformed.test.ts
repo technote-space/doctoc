@@ -1,12 +1,13 @@
 /* eslint-disable no-magic-numbers */
-import {resolve} from 'path';
-import {readFileSync} from 'fs';
-import {transform} from '../src';
+import { readFileSync } from 'fs';
+import { resolve } from 'path';
+import { describe, expect, it } from 'vitest';
+import { transform } from '../src';
 
 describe('transform', () => {
   it('update only', () => {
     const content = readFileSync(resolve(__dirname, 'fixtures/readme-update-only.md'), 'utf8');
-    const headers = transform(content, {updateOnly: true});
+    const headers = transform(content, { updateOnly: true });
 
     expect(headers.transformed).toBe(false);
     expect(headers.reason).toBe('update only');

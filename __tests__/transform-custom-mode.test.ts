@@ -1,12 +1,13 @@
 /* eslint-disable no-magic-numbers */
-import {resolve} from 'path';
-import {readFileSync} from 'fs';
-import {transform} from '../src';
+import { readFileSync } from 'fs';
+import { resolve } from 'path';
+import { describe, expect, it } from 'vitest';
+import { transform } from '../src';
 
 describe('transform', () => {
   it('run in html mode', () => {
     const content = readFileSync(resolve(__dirname, 'fixtures/readme-with-html.md'), 'utf8');
-    const headers = transform(content, {mode: 'github.com', isCustomMode: true});
+    const headers = transform(content, { mode: 'github.com', isCustomMode: true });
 
     expect(headers.toc.split('\n')).toEqual(
       ['**Table of Contents**  *generated with [DocToc](https://github.com/technote-space/doctoc)*',

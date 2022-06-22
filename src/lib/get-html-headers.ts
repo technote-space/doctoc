@@ -1,17 +1,17 @@
-import * as htmlparser from 'htmlparser2';
+import type { HeaderData, Header } from '../types.js';
 import * as md from '@textlint/markdown-to-ast';
-import {HeaderData, Header} from '../types';
+import * as htmlparser from 'htmlparser2';
 
-const addLinenos = (lines: Array<string>, headers: Array<HeaderData>): Array<Omit<Header, 'rank'> & HeaderData> => {
+const addLineNumbers = (lines: Array<string>, headers: Array<HeaderData>): Array<Omit<Header, 'rank'> & HeaderData> => {
   let current = 0;
   return headers.map(header => {
-    for (let lineno = current; lineno < lines.length; lineno++) {
-      const line = lines[lineno];
-      if (new RegExp(header.text[0]).test(line)) {
-        current = lineno;
+    for (let lineNumber = current; lineNumber < lines.length; lineNumber++) {
+      const line = lines[lineNumber]!;
+      if (new RegExp(header.text[0]!).test(line)) {
+        current = lineNumber;
         return {
           ...header,
-          line: lineno,
+          line: lineNumber,
           name: header.text.join(''),
         };
       }
@@ -73,14 +73,14 @@ export const getHtmlHeaders = (lines: Array<string>, maxHeaderLevel: number): Ar
       // eslint-disable-next-line no-magic-numbers
       if (grabbing[grabbing.length - 1] === name) {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        headers.push({text: [...text], tag: grabbing.pop()!});
+        headers.push({ text: [...text], tag: grabbing.pop()! });
         text.length = 0;
       }
     },
-  }, {decodeEntities: true});
+  }, { decodeEntities: true });
 
   parser.write(source);
   parser.end();
 
-  return rankify(addLinenos(lines, headers), maxHeaderLevel);
+  return rankify(addLineNumbers(lines, headers), maxHeaderLevel);
 };

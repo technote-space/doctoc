@@ -1,7 +1,8 @@
 /* eslint-disable no-magic-numbers */
-import {resolve} from 'path';
-import {readFileSync} from 'fs';
-import {transform} from '../src';
+import { readFileSync } from 'fs';
+import { resolve } from 'path';
+import { describe, expect, it } from 'vitest';
+import { transform } from '../src';
 
 describe('transform', () => {
   it('given a file with edge-case header names', () => {

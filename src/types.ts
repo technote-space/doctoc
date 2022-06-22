@@ -1,4 +1,4 @@
-import {Stats} from 'fs';
+import type { Stats } from 'fs';
 
 export type TransformOptions = Partial<{
   mode: string;

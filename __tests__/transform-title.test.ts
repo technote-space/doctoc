@@ -1,12 +1,13 @@
 /* eslint-disable no-magic-numbers */
-import {resolve} from 'path';
-import {readFileSync} from 'fs';
-import {transform} from '../src';
+import { readFileSync } from 'fs';
+import { resolve } from 'path';
+import { describe, expect, it } from 'vitest';
+import { transform } from '../src';
 
 describe('transform', () => {
   it('overwrite existing title', () => {
     const content = readFileSync(resolve(__dirname, 'fixtures/readme-with-custom-title.md'), 'utf8');
-    const headers = transform(content, {title: '## Table of Contents'});
+    const headers = transform(content, { title: '## Table of Contents' });
 
     expect(headers.toc.split('\n')).toEqual(
       ['## Table of Contents',
@@ -34,7 +35,7 @@ describe('transform', () => {
 
   it('clobber existing title', () => {
     const content = readFileSync(resolve(__dirname, 'fixtures/readme-with-custom-title.md'), 'utf8');
-    const headers = transform(content, {isNotitle: true});
+    const headers = transform(content, { isNotitle: true });
 
     expect(headers.toc.split('\n')).toEqual(
       ['',
