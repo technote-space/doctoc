@@ -1,5 +1,5 @@
-export { findMarkdownFiles } from './lib/file';
-export { transform } from './lib/transform';
+export { findMarkdownFiles } from './lib/file.js';
+export { transform } from './lib/transform.js';
 export {
   OPENING_COMMENT,
   CLOSING_COMMENT,
@@ -11,4 +11,4 @@ export {
   DEFAULT_CUSTOM_TEMPLATE,
   DEFAULT_ITEM_TEMPLATE,
   DEFAULT_SEPARATOR,
-} from './constant';
+} from './constant.js';

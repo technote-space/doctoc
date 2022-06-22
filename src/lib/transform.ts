@@ -1,4 +1,4 @@
-import type { TransformOptions, Header, HeaderWithRepetition, HeaderWithAnchor, SectionInfo, TransformResult } from '../types';
+import type { TransformOptions, Header, HeaderWithRepetition, HeaderWithAnchor, SectionInfo, TransformResult } from '../types.js';
 import type { TxtNode } from '@textlint/ast-node-types';
 import { anchor, getUrlHash } from '@technote-space/anchor-markdown-header';
 import * as md from '@textlint/markdown-to-ast';
@@ -12,10 +12,10 @@ import {
   DEFAULT_CUSTOM_TEMPLATE,
   DEFAULT_ITEM_TEMPLATE,
   DEFAULT_SEPARATOR,
-} from '..';
-import { getHtmlHeaders } from './get-html-headers';
-import { getStartSection, extractParams, getParamsSection } from './params';
-import { replaceVariables } from './utils';
+} from '../constant.js';
+import { getHtmlHeaders } from './get-html-headers.js';
+import { getStartSection, extractParams, getParamsSection } from './params.js';
+import { replaceVariables } from './utils.js';
 
 const getTargetComments = (checkComments: Array<string>, defaultComments: string): Array<string> => {
   if (checkComments.length) {
@@ -105,12 +105,12 @@ export const getTitle = (title: string | undefined, lines: Array<string>, info: 
     return title;
   }
 
-  if (info.hasStart && lines[info.startIdx + startSection.length].trim()) {
-    if (matchesEnd(lines[info.startIdx + startSection.length])) {
+  if (info.hasStart && lines[info.startIdx + startSection.length]!.trim()) {
+    if (matchesEnd(lines[info.startIdx + startSection.length]!)) {
       return DEFAULT_TITLE;
     }
 
-    return lines[info.startIdx + startSection.length].trim();
+    return lines[info.startIdx + startSection.length]!.trim();
   }
 
   return DEFAULT_TITLE;
@@ -190,52 +190,34 @@ export const transform = (
 
   const startSection     = getStartSection(lines, info, matchesEnd(options.checkClosingComments));
   const extractedOptions = extractParams(startSection.join(' '));
-  const
-    {
-      mode,
-      moduleName,
-      maxHeaderLevel,
-      title,
-      isNotitle,
-      isFolding,
-      entryPrefix,
-      processAll,
-      updateOnly,
-      openingComment,
-      closingComment,
-      isCustomMode,
-      customTemplate,
-      itemTemplate,
-      separator,
-      footer,
-    }                    = { ...options, ...extractedOptions };
+  const _option          = { ...options, ...extractedOptions };
 
-  if (!info.hasStart && updateOnly) {
+  if (!info.hasStart && _option.updateOnly) {
     return getResult({ transformed: false, reason: 'update only' });
   }
 
-  const _mode        = mode || 'github.com';
-  const _entryPrefix = entryPrefix || '-';
+  const _mode        = _option.mode || 'github.com';
+  const _entryPrefix = _option.entryPrefix || '-';
 
   // only limit *HTML* headings by default
   // eslint-disable-next-line no-magic-numbers
-  const maxHeaderLevelHtml = maxHeaderLevel || 4;
+  const maxHeaderLevelHtml = _option.maxHeaderLevel || 4;
 
   // eslint-disable-next-line no-magic-numbers
   const currentToc = info.hasStart && lines.slice(info.startIdx, info.endIdx + 1).join('\n');
-  const linesToToc = getLinesToToc(lines, currentToc, info, processAll);
-  const headers    = getMarkdownHeaders(linesToToc, maxHeaderLevel).concat(getHtmlHeaders(linesToToc, maxHeaderLevelHtml));
+  const linesToToc = getLinesToToc(lines, currentToc, info, _option.processAll);
+  const headers    = getMarkdownHeaders(linesToToc, _option.maxHeaderLevel).concat(getHtmlHeaders(linesToToc, maxHeaderLevelHtml));
   headers.sort((header1, header2) => header1.line - header2.line);
 
-  const allHeaders    = countHeaders(headers, _mode, moduleName);
+  const allHeaders    = countHeaders(headers, _mode, _option.moduleName);
   const lowestRank    = Math.min(...allHeaders.map(header => header.rank));
-  const linkedHeaders = allHeaders.map(header => addAnchor(_mode, moduleName, header));
-  const inferredTitle = linkedHeaders.length ? determineTitle(title, isNotitle, isFolding, lines, info, startSection, matchesEnd(options.checkClosingComments)) : '';
+  const linkedHeaders = allHeaders.map(header => addAnchor(_mode, _option.moduleName, header));
+  const inferredTitle = linkedHeaders.length ? determineTitle(_option.title, _option.isNotitle, _option.isFolding, lines, info, startSection, matchesEnd(options.checkClosingComments)) : '';
 
   // 4 spaces required for proper indention on Bitbucket and GitLab
   const indentation = (_mode === 'bitbucket.org' || _mode === 'gitlab.com') ? '    ' : '  ';
-  const toc         = buildToc(isCustomMode, inferredTitle, linkedHeaders, lowestRank, customTemplate, itemTemplate, separator, indentation, _entryPrefix, footer);
-  const wrappedToc  = (openingComment ?? OPENING_COMMENT) + getParamsSection(extractedOptions) + '\n' + wrapToc(toc, inferredTitle, isFolding) + '\n' + (closingComment ?? CLOSING_COMMENT);
+  const toc         = buildToc(_option.isCustomMode, inferredTitle, linkedHeaders, lowestRank, _option.customTemplate, _option.itemTemplate, _option.separator, indentation, _entryPrefix, _option.footer);
+  const wrappedToc  = (_option.openingComment ?? OPENING_COMMENT) + getParamsSection(extractedOptions) + '\n' + wrapToc(toc, inferredTitle, _option.isFolding) + '\n' + (_option.closingComment ?? CLOSING_COMMENT);
   if (currentToc === wrappedToc) {
     return getResult({ transformed: false, reason: 'not updated' });
   }

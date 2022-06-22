@@ -29,17 +29,19 @@
       "url": "https://technote.space"
     }
   ],
-  "main": "build/index.js",
-  "types": "build/index.d.ts",
+  "type": "module",
+  "exports": "./dist/index.mjs",
+  "main": "dist/index.mjs",
   "files": [
     "build"
   ],
   "scripts": {
-    "build": "rm -rf ./build && tsc",
+    "build": "tsc --emitDeclarationOnly && rollup -c",
     "cover": "vitest run --coverage",
     "lint": "eslint 'src/**/*.ts' '__tests__/**/*.ts' --cache",
     "lint:fix": "eslint --fix 'src/**/*.ts' '__tests__/**/*.ts'",
-    "test": "yarn lint && yarn cover",
+    "test": "yarn lint && yarn typecheck && yarn cover",
+    "typecheck": "tsc --noEmit",
     "update": "npm_config_yes=true npx npm-check-updates -u --timeout 100000 && yarn install && yarn upgrade && yarn audit"
   },
   "dependencies": {
@@ -51,6 +53,8 @@
   "devDependencies": {
     "@commitlint/cli": "^17.0.2",
     "@commitlint/config-conventional": "^17.0.2",
+    "@rollup/plugin-typescript": "^8.3.3",
+    "@sindresorhus/tsconfig": "^3.0.1",
     "@textlint/ast-node-types": "^12.1.1",
     "@types/node": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "^5.29.0",
@@ -60,6 +64,7 @@
     "eslint-plugin-import": "^2.26.0",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.2",
+    "rollup": "^2.75.7",
     "typescript": "^4.7.4",
     "vitest": "^0.15.2"
   },
