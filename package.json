@@ -29,11 +29,22 @@
       "url": "https://technote.space"
     }
   ],
+  "types": "dist/index.d.ts",
+  "main": "dist/index.cjs",
   "type": "module",
-  "exports": "./dist/index.mjs",
-  "main": "dist/index.mjs",
+  "module": "dist/index.mjs",
+  "exports": {
+    ".": [
+      {
+        "types": "./dist/index.d.ts",
+        "import": "./dist/index.mjs",
+        "require": "./dist/index.cjs"
+      },
+      "./dist/index.cjs"
+    ]
+  },
   "files": [
-    "build"
+    "dist"
   ],
   "scripts": {
     "build": "tsc --emitDeclarationOnly && rollup -c",
