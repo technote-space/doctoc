@@ -1,6 +1,6 @@
 {
   "name": "@technote-space/doctoc",
-  "version": "2.5.0",
+  "version": "2.5.1",
   "description": "Generates TOC for markdown files of local git repo.",
   "keywords": [
     "github",
@@ -30,10 +30,14 @@
     }
   ],
   "type": "module",
-  "exports": "./dist/index.mjs",
+  "exports": {
+    "import": "./dist/index.mjs",
+    "require": "./dist/index.cjs"
+  },
   "main": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
-    "build"
+    "dist"
   ],
   "scripts": {
     "build": "tsc --emitDeclarationOnly && rollup -c",
@@ -46,16 +50,16 @@
   },
   "dependencies": {
     "@technote-space/anchor-markdown-header": "^1.1.36",
-    "@textlint/markdown-to-ast": "^12.1.1",
+    "@textlint/markdown-to-ast": "^12.2.1",
     "htmlparser2": "^8.0.1",
     "update-section": "^0.3.3"
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.0.2",
-    "@commitlint/config-conventional": "^17.0.2",
+    "@commitlint/cli": "^17.0.3",
+    "@commitlint/config-conventional": "^17.0.3",
     "@rollup/plugin-typescript": "^8.3.3",
     "@sindresorhus/tsconfig": "^3.0.1",
-    "@textlint/ast-node-types": "^12.1.1",
+    "@textlint/ast-node-types": "^12.2.1",
     "@types/node": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "^5.29.0",
     "@typescript-eslint/parser": "^5.29.0",
@@ -63,10 +67,10 @@
     "eslint": "^8.18.0",
     "eslint-plugin-import": "^2.26.0",
     "husky": "^8.0.1",
-    "lint-staged": "^13.0.2",
+    "lint-staged": "^13.0.3",
     "rollup": "^2.75.7",
     "typescript": "^4.7.4",
-    "vitest": "^0.15.2"
+    "vitest": "^0.16.0"
   },
   "publishConfig": {
     "access": "public"

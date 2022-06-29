@@ -10,6 +10,8 @@ const common = {
     '@textlint/markdown-to-ast',
     'htmlparser2',
     'update-section',
+    'fs',
+    'path',
   ],
 };
 
