@@ -29,20 +29,13 @@
       "url": "https://technote.space"
     }
   ],
-  "types": "dist/index.d.ts",
-  "main": "dist/index.cjs",
   "type": "module",
-  "module": "dist/index.mjs",
   "exports": {
-    ".": [
-      {
-        "types": "./dist/index.d.ts",
-        "import": "./dist/index.mjs",
-        "require": "./dist/index.cjs"
-      },
-      "./dist/index.cjs"
-    ]
+    "import": "./dist/index.mjs",
+    "require": "./dist/index.cjs"
   },
+  "main": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
