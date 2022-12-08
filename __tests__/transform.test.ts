@@ -1,8 +1,8 @@
 /* eslint-disable no-magic-numbers */
 import { describe, expect, it } from 'vitest';
-import { transform } from '../src';
-import { OPENING_COMMENT, CLOSING_COMMENT } from '../src';
-import { getLinesToToc, matchesStart, matchesEnd } from '../src/lib/transform';
+import { transform } from '../src/index.js';
+import { OPENING_COMMENT, CLOSING_COMMENT } from '../src/index.js';
+import { getLinesToToc, matchesStart, matchesEnd } from '../src/lib/transform.js';
 
 const check = (
   name: string,

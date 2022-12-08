@@ -2,7 +2,7 @@
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 import { describe, expect, it } from 'vitest';
-import { transform } from '../src';
+import { transform } from '../src/index.js';
 
 describe('transform', () => {
   it('\nhandle inline links and images', () => {
