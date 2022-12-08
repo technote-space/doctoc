@@ -41,7 +41,7 @@ export const getStartSection = (lines: Array<string>, info: SectionInfo, matches
 export const extractParams = (section: string): TransformOptions => Object.assign({}, ...(section.match(/\s+param::(\w+)::(.*?)::/g)?.map(
   target => target.match(/param::(\w+)::(.*?)::/),
 ).filter(
-  (items): items is Array<string> => items !== null && items[1]! in converter,
+  (items): items is RegExpMatchArray => items !== null && items[1]! in converter,
 ).map(
   items => ({ [items[1]!]: converter[items[1]!](items[2]) }),
 ) ?? []));
