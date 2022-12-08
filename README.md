@@ -48,6 +48,7 @@ transform(readFileSync('README.md', {
   // closingComment: '<!-- tocstop --> ',
   // checkOpeningComments: ['<!-- toc '],
   // checkClosingComments: ['<!-- tocstop '],
+  // checkSkipComments: ['<!-- toc skip '],
   // isCustomMode: false,
   // customTemplate: '<p align="center">${ITEMS}</p>',
   // itemTemplate: '<a href="${LINK}">${TEXT}</a>',

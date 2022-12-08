@@ -1,7 +1,7 @@
 /* eslint-disable no-magic-numbers */
 import { resolve } from 'path';
 import { describe, expect, it, vi } from 'vitest';
-import { findMarkdownFiles } from '../src';
+import { findMarkdownFiles } from '../src/index.js';
 
 describe('findMarkdownFiles', () => {
   it('should find markdown files', () => {
@@ -25,6 +25,10 @@ describe('findMarkdownFiles', () => {
       {
         'name': 'readme-not-updated.md',
         'path': resolve(__dirname, 'fixtures/readme-not-updated.md'),
+      },
+      {
+        'name': 'readme-skipped.md',
+        'path': resolve(__dirname, 'fixtures/readme-skipped.md'),
       },
       {
         'name': 'readme-update-only.md',
