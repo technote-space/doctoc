@@ -20,4 +20,12 @@ describe('transform', () => {
     expect(headers.transformed).toBe(false);
     expect(headers.reason).toBe('not updated');
   });
+
+  it('skipped', () => {
+    const content = readFileSync(resolve(__dirname, 'fixtures/readme-skipped.md'), 'utf8');
+    const headers = transform(content);
+
+    expect(headers.transformed).toBe(false);
+    expect(headers.reason).toBe('skipped');
+  });
 });

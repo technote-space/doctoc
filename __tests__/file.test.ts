@@ -27,6 +27,10 @@ describe('findMarkdownFiles', () => {
         'path': resolve(__dirname, 'fixtures/readme-not-updated.md'),
       },
       {
+        'name': 'readme-skipped.md',
+        'path': resolve(__dirname, 'fixtures/readme-skipped.md'),
+      },
+      {
         'name': 'readme-update-only.md',
         'path': resolve(__dirname, 'fixtures/readme-update-only.md'),
       },

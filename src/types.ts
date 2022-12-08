@@ -14,6 +14,7 @@ export type TransformOptions = Partial<{
   closingComment: string;
   checkOpeningComments: Array<string>;
   checkClosingComments: Array<string>;
+  checkSkipComments: Array<string>;
   isCustomMode: boolean;
   customTemplate: string;
   itemTemplate: string;

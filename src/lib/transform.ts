@@ -8,6 +8,7 @@ import {
   CLOSING_COMMENT,
   CHECK_OPENING_COMMENT,
   CHECK_CLOSING_COMMENT,
+  CHECK_SKIP_COMMENT,
   DEFAULT_TITLE,
   DEFAULT_CUSTOM_TEMPLATE,
   DEFAULT_ITEM_TEMPLATE,
@@ -27,6 +28,7 @@ const getTargetComments = (checkComments: Array<string>, defaultComments: string
 
 export const matchesStart = (checkOpeningComments?: Array<string>) => (line: string): boolean => getTargetComments(checkOpeningComments ?? [], CHECK_OPENING_COMMENT).some(comment => new RegExp(comment).test(line));
 export const matchesEnd   = (checkClosingComments?: Array<string>) => (line: string): boolean => getTargetComments(checkClosingComments ?? [], CHECK_CLOSING_COMMENT).some(comment => new RegExp(comment).test(line));
+export const matchesSkip  = (checkSkipComments?: Array<string>) => (line: string): boolean => getTargetComments(checkSkipComments ?? [], CHECK_SKIP_COMMENT).some(comment => new RegExp(comment).test(line));
 const addAnchor           = (mode: string, moduleName: string | undefined, header: HeaderWithRepetition): HeaderWithAnchor => {
   return {
     ...header,
@@ -185,7 +187,11 @@ export const transform = (
   content: string,
   options: TransformOptions = {},
 ): TransformResult => {
-  const lines             = content.split('\n');
+  const lines = content.split('\n');
+  if (lines.some(matchesSkip(options.checkSkipComments))) {
+    return getResult({ transformed: false, reason: 'skipped' });
+  }
+
   const info: SectionInfo = updateSection.parse(lines, matchesStart(options.checkOpeningComments), matchesEnd(options.checkClosingComments));
 
   const startSection     = getStartSection(lines, info, matchesEnd(options.checkClosingComments));

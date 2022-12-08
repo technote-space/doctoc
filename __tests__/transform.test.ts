@@ -2,7 +2,7 @@
 import { describe, expect, it } from 'vitest';
 import { transform } from '../src/index.js';
 import { OPENING_COMMENT, CLOSING_COMMENT } from '../src/index.js';
-import { getLinesToToc, matchesStart, matchesEnd } from '../src/lib/transform.js';
+import { getLinesToToc, matchesStart, matchesEnd, matchesSkip } from '../src/lib/transform.js';
 
 const check = (
   name: string,
@@ -618,5 +618,17 @@ describe('matchesEnd', () => {
   it('should return false', () => {
     expect(matchesEnd()('<!-- doctoc -->')).toBe(false);
     expect(matchesEnd(['<!-- test '])('<!-- END doctoc -->')).toBe(false);
+  });
+});
+
+describe('matchesSkip', () => {
+  it('should return true', () => {
+    expect(matchesSkip()('<!-- DOCTOC SKIP -->')).toBe(true);
+    expect(matchesSkip(['<!-- test '])('<!-- test abc -->')).toBe(true);
+  });
+
+  it('should return false', () => {
+    expect(matchesSkip()('<!-- doctoc -->')).toBe(false);
+    expect(matchesSkip(['<!-- test '])('<!-- DOCTOC SKIP -->')).toBe(false);
   });
 });
