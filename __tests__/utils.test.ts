@@ -1,6 +1,6 @@
 /* eslint-disable no-magic-numbers */
 import { describe, expect, it } from 'vitest';
-import { replaceVariables } from '../src/lib/utils';
+import { replaceVariables } from '../src/lib/utils.js';
 
 describe('replaceVariables', () => {
   it('should replace variables', () => {
