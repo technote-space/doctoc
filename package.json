@@ -49,7 +49,7 @@
     "update": "npm_config_yes=true npx npm-check-updates -u --timeout 100000 && yarn install && yarn upgrade && yarn audit"
   },
   "dependencies": {
-    "@technote-space/anchor-markdown-header": "^1.1.38",
+    "@technote-space/anchor-markdown-header": "^1.1.39",
     "@textlint/markdown-to-ast": "^12.2.3",
     "htmlparser2": "^8.0.1",
     "update-section": "^0.3.3"
@@ -57,20 +57,20 @@
   "devDependencies": {
     "@commitlint/cli": "^17.3.0",
     "@commitlint/config-conventional": "^17.3.0",
-    "@rollup/plugin-typescript": "^9.0.2",
+    "@rollup/plugin-typescript": "^10.0.1",
     "@sindresorhus/tsconfig": "^3.0.1",
     "@textlint/ast-node-types": "^12.2.2",
-    "@types/node": "^18.11.9",
-    "@typescript-eslint/eslint-plugin": "^5.44.0",
-    "@typescript-eslint/parser": "^5.44.0",
-    "@vitest/coverage-c8": "^0.25.3",
-    "eslint": "^8.28.0",
+    "@types/node": "^18.11.11",
+    "@typescript-eslint/eslint-plugin": "^5.46.0",
+    "@typescript-eslint/parser": "^5.46.0",
+    "@vitest/coverage-c8": "^0.25.6",
+    "eslint": "^8.29.0",
     "eslint-plugin-import": "^2.26.0",
     "husky": "^8.0.2",
-    "lint-staged": "^13.0.4",
-    "rollup": "^3.5.0",
-    "typescript": "^4.9.3",
-    "vitest": "^0.25.3"
+    "lint-staged": "^13.1.0",
+    "rollup": "^3.7.0",
+    "typescript": "^4.9.4",
+    "vitest": "^0.25.6"
   },
   "publishConfig": {
     "access": "public"
