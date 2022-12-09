@@ -1,6 +1,6 @@
 {
   "name": "@technote-space/doctoc",
-  "version": "2.6.0",
+  "version": "2.6.1",
   "description": "Generates TOC for markdown files of local git repo.",
   "keywords": [
     "github",
@@ -60,7 +60,7 @@
     "@rollup/plugin-typescript": "^10.0.1",
     "@sindresorhus/tsconfig": "^3.0.1",
     "@textlint/ast-node-types": "^12.2.2",
-    "@types/node": "^18.11.11",
+    "@types/node": "^18.11.12",
     "@typescript-eslint/eslint-plugin": "^5.46.0",
     "@typescript-eslint/parser": "^5.46.0",
     "@vitest/coverage-c8": "^0.25.6",
