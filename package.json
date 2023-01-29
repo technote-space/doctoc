@@ -50,7 +50,7 @@
   },
   "dependencies": {
     "@technote-space/anchor-markdown-header": "^1.1.39",
-    "@textlint/markdown-to-ast": "^12.6.0",
+    "@textlint/markdown-to-ast": "^13.0.5",
     "htmlparser2": "^8.0.1",
     "update-section": "^0.3.3"
   },
@@ -59,18 +59,18 @@
     "@commitlint/config-conventional": "^17.4.2",
     "@rollup/plugin-typescript": "^11.0.0",
     "@sindresorhus/tsconfig": "^3.0.1",
-    "@textlint/ast-node-types": "^12.6.0",
+    "@textlint/ast-node-types": "^13.0.5",
     "@types/node": "^18.11.18",
-    "@typescript-eslint/eslint-plugin": "^5.48.2",
-    "@typescript-eslint/parser": "^5.48.2",
-    "@vitest/coverage-c8": "^0.27.3",
-    "eslint": "^8.32.0",
+    "@typescript-eslint/eslint-plugin": "^5.49.0",
+    "@typescript-eslint/parser": "^5.49.0",
+    "@vitest/coverage-c8": "^0.28.3",
+    "eslint": "^8.33.0",
     "eslint-plugin-import": "^2.27.5",
     "husky": "^8.0.3",
     "lint-staged": "^13.1.0",
-    "rollup": "^3.10.1",
+    "rollup": "^3.12.0",
     "typescript": "^4.9.4",
-    "vitest": "^0.27.3"
+    "vitest": "^0.28.3"
   },
   "publishConfig": {
     "access": "public"
