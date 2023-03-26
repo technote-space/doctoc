@@ -1,6 +1,6 @@
 {
   "name": "@technote-space/doctoc",
-  "version": "2.6.1",
+  "version": "2.6.2",
   "description": "Generates TOC for markdown files of local git repo.",
   "keywords": [
     "github",
@@ -50,27 +50,27 @@
   },
   "dependencies": {
     "@technote-space/anchor-markdown-header": "^1.1.39",
-    "@textlint/markdown-to-ast": "^12.2.3",
-    "htmlparser2": "^8.0.1",
+    "@textlint/markdown-to-ast": "^13.3.2",
+    "htmlparser2": "^8.0.2",
     "update-section": "^0.3.3"
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.3.0",
-    "@commitlint/config-conventional": "^17.3.0",
-    "@rollup/plugin-typescript": "^10.0.1",
+    "@commitlint/cli": "^17.5.0",
+    "@commitlint/config-conventional": "^17.4.4",
+    "@rollup/plugin-typescript": "^11.0.0",
     "@sindresorhus/tsconfig": "^3.0.1",
-    "@textlint/ast-node-types": "^12.2.2",
-    "@types/node": "^18.11.12",
-    "@typescript-eslint/eslint-plugin": "^5.46.0",
-    "@typescript-eslint/parser": "^5.46.0",
-    "@vitest/coverage-c8": "^0.25.6",
-    "eslint": "^8.29.0",
-    "eslint-plugin-import": "^2.26.0",
-    "husky": "^8.0.2",
-    "lint-staged": "^13.1.0",
-    "rollup": "^3.7.0",
-    "typescript": "^4.9.4",
-    "vitest": "^0.25.6"
+    "@textlint/ast-node-types": "^13.3.2",
+    "@types/node": "^18.15.10",
+    "@typescript-eslint/eslint-plugin": "^5.56.0",
+    "@typescript-eslint/parser": "^5.56.0",
+    "@vitest/coverage-c8": "^0.29.7",
+    "eslint": "^8.36.0",
+    "eslint-plugin-import": "^2.27.5",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.0",
+    "rollup": "^3.20.2",
+    "typescript": "^5.0.2",
+    "vitest": "^0.29.7"
   },
   "publishConfig": {
     "access": "public"
